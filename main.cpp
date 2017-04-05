@@ -9,6 +9,7 @@
 #include "lib/readinput.h"
 #include <QString>
 #include "lib/writelcd.h"
+#include "lib/socketserver.h"
 
 QString Costant::nfcId = "";
 //int Costant::lcdAddr = 0x27;
@@ -54,6 +55,9 @@ int main(int argc, char *argv[])
     pinMode (Costant::led1(), OUTPUT) ;
     pinMode (Costant::led2(), OUTPUT) ;
     pinMode (Costant::in(), INPUT) ;
+
+    SocketServer server;
+
     NfcThread nfcTh;
     nfcTh.start();
     ReadInput rd;
