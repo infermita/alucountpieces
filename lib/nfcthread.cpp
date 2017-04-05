@@ -71,7 +71,7 @@ void NfcThread::run(){
                             Costant::pCount = 0;
                             Costant::wLcd->clear();
                             Costant::wLcd->write(0,0,"Mario Rossi");
-                            Costant::wLcd->write(1,0,"Pezzi: 0");
+                            Costant::wLcd->write(0,1,"Pezzi: 0");
                         }else{
 
                             Costant::nfcId = "";
@@ -84,7 +84,7 @@ void NfcThread::run(){
                             }
                             Costant::wLcd->clear();
                             Costant::wLcd->write(0,0,"Carta non");
-                            Costant::wLcd->write(1,0,"riconosciuta");
+                            Costant::wLcd->write(0,1,"riconosciuta");
                         }
 
                         while(!nfc_initiator_target_is_present(pnd,&nt)){

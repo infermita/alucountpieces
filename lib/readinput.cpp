@@ -42,7 +42,7 @@ void ReadInput::run(){
                     qDebug() << "Conto: " << Costant::pCount;
                     read = 1;
                     lblCnt = "Pezzi: "+QString::number(Costant::pCount);
-                    Costant::wLcd->write(1,0,lblCnt.toLatin1().data());
+                    Costant::wLcd->write(0,1,lblCnt.toLatin1().data());
 
                     ip = QNetworkInterface::interfaceFromName("wlan0").addressEntries().first().ip().toString();
 
