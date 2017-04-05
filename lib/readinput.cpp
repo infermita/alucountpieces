@@ -4,6 +4,8 @@
 #include <QDebug>
 #include <QNetworkInterface>
 #include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QUrl>
 
 ReadInput::ReadInput()
 {
@@ -14,6 +16,10 @@ void ReadInput::run(){
     int dl = 50,i,read=0;
     QString lblCnt;
     QString ip,url;
+    QNetworkAccessManager manager;
+    QNetworkRequest request;
+
+
     while(1){
 
 
@@ -40,13 +46,10 @@ void ReadInput::run(){
 
                     ip = QNetworkInterface::interfaceFromName("wlan0").addressEntries().first().ip().toString();
 
-                    QNetworkAccessManager *manager = new QNetworkAccessManager();
-                    QNetworkRequest request;
-
                     url = "http://alucount.al.it/defaul/json/index/ip/"+ip+"/cardkey"+Costant::nfcId+"/pezzi/"+Costant::pCount;
 
                     request.setUrl(QUrl(url));
-                    manager->get(request);
+                    manager.get(request);
 
                 }
             }else{
