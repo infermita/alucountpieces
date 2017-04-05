@@ -78,15 +78,17 @@ void NfcThread::run(){
 
                             Costant::nfcId = "";
 
+                            Costant::wLcd->clear();
+                            Costant::wLcd->write(0,0,"Carta non");
+                            Costant::wLcd->write(0,1,"riconosciuta");
+
                             for(i=0; i < 3;i++){
 
                                 digitalWrite (Costant::led2(), HIGH) ; delay (dl/2) ;
                                 digitalWrite (Costant::led2(), LOW); delay (dl/2) ;
 
                             }
-                            Costant::wLcd->clear();
-                            Costant::wLcd->write(0,0,"Carta non");
-                            Costant::wLcd->write(0,1,"riconosciuta");
+
                         }
 
                         while(!nfc_initiator_target_is_present(pnd,&nt)){
