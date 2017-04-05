@@ -17,7 +17,8 @@ TEMPLATE = app
 SOURCES += main.cpp \
     lib/nfcthread.cpp \
     lib/costant.cpp \
-    lib/readinput.cpp
+    lib/readinput.cpp \
+    lib/writelcd.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -33,4 +34,5 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += \
     lib/nfcthread.h \
     lib/costant.h \
-    lib/readinput.h
+    lib/readinput.h \
+    lib/writelcd.h

@@ -2,6 +2,7 @@
 #include "lib/costant.h"
 #include <wiringPi.h>
 #include <QDebug>
+#include "lib/writelcd.h"
 
 NfcThread::NfcThread()
 {
@@ -63,6 +64,10 @@ void NfcThread::run(){
                                 digitalWrite (Costant::led1(), LOW); delay (dl) ;
 
                             }
+                            Costant::pCount = 0;
+                            Costant::wLcd->clear();
+                            Costant::wLcd->write(0,0,"Mario Rossi");
+                            Costant::wLcd->write(1,0,"Pezzi: 0");
                         }else{
 
                             Costant::nfcId = "";
@@ -73,6 +78,9 @@ void NfcThread::run(){
                                 digitalWrite (Costant::led2(), LOW); delay (dl/4) ;
 
                             }
+                            Costant::wLcd->clear();
+                            Costant::wLcd->write(0,0,"Carta non");
+                            Costant::wLcd->write(1,0,"riconosciuta");
                         }
 
                         while(!nfc_initiator_target_is_present(pnd,&nt)){

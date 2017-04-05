@@ -9,8 +9,8 @@ ReadInput::ReadInput()
 }
 void ReadInput::run(){
 
-    int dl = 50,i,cnt = 0,read=0;
-
+    int dl = 50,i,read=0;
+    QString lblCnt;
     while(1){
 
 
@@ -29,9 +29,11 @@ void ReadInput::run(){
 
 
                     }
-                    cnt++;
-                    qDebug() << "Conto: " << cnt;
+                    Costant::pCount++;
+                    qDebug() << "Conto: " << Costant::pCount;
                     read = 1;
+                    lblCnt = "Pezzi: "+QString::number(Costant::pCount);
+                    Costant::wLcd->write(1,0,lblCnt.toLatin1().data());
                 }
             }else{
 

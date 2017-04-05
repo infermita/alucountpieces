@@ -8,9 +8,12 @@
 #include "lib/costant.h"
 #include "lib/readinput.h"
 #include <QString>
+#include "lib/writelcd.h"
 
 QString Costant::nfcId = "";
-
+//int Costant::lcdAddr = 0x27;
+WriteLcd *Costant::wLcd = new WriteLcd();
+int Costant::pCount = 0;
 void myMessageHandler(QtMsgType type, const QMessageLogContext &context,const QString &msg)
 {
     QString txt = QDateTime::currentDateTime().toString("dd-MM-yy hh:mm:ss")+" ";
