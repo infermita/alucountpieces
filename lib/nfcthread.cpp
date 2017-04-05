@@ -11,7 +11,7 @@ NfcThread::NfcThread()
 void NfcThread::run(){
 
     int i;
-    int dl = 500;
+    int dl = 250;
     QString id;
     const nfc_modulation nmMifare = {
         .nmt = NMT_ISO14443A,
@@ -62,24 +62,26 @@ void NfcThread::run(){
 
                             Costant::nfcId = id;
 
+                            Costant::pCount = 0;
+                            Costant::wLcd->clear();
+                            Costant::wLcd->write(0,0,"Mario Rossi");
+                            Costant::wLcd->write(0,1,"Pezzi: 0");
+
                             for(i=0; i < 3;i++){
 
                                 digitalWrite (Costant::led1(), HIGH) ; delay (dl) ;
                                 digitalWrite (Costant::led1(), LOW); delay (dl) ;
 
                             }
-                            Costant::pCount = 0;
-                            Costant::wLcd->clear();
-                            Costant::wLcd->write(0,0,"Mario Rossi");
-                            Costant::wLcd->write(0,1,"Pezzi: 0");
+
                         }else{
 
                             Costant::nfcId = "";
 
                             for(i=0; i < 3;i++){
 
-                                digitalWrite (Costant::led2(), HIGH) ; delay (dl/4) ;
-                                digitalWrite (Costant::led2(), LOW); delay (dl/4) ;
+                                digitalWrite (Costant::led2(), HIGH) ; delay (dl/2) ;
+                                digitalWrite (Costant::led2(), LOW); delay (dl/2) ;
 
                             }
                             Costant::wLcd->clear();
