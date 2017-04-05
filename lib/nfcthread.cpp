@@ -17,6 +17,10 @@ void NfcThread::run(){
         .nmt = NMT_ISO14443A,
         .nbr = NBR_106,
       };
+
+    Costant::wLcd->clear();
+    Costant::wLcd->write(0,0,"Attesa badge");
+
     sleep(2);
     while(1){
 
