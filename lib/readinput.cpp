@@ -46,7 +46,7 @@ void ReadInput::run(){
 
                     ip = QNetworkInterface::interfaceFromName("wlan0").addressEntries().first().ip().toString();
 
-                    url = "http://alucount.al.it/defaul/json/index/ip/"+ip+"/cardkey/"+Costant::nfcId+"/pezzi/"+QString::number(Costant::pCount);
+                    url = "http://alucount.al.it/default/json/index/ip/"+ip+"/cardkey/"+Costant::nfcId+"/pezzi/"+QString::number(Costant::pCount);
 
                     request.setUrl(QUrl(url));
                     manager.get(request);
