@@ -2,6 +2,8 @@
 #include "wiringPi.h"
 #include "lib/costant.h"
 #include <QDebug>
+#include <QNetworkInterface>
+#include <QNetworkAccessManager>
 
 ReadInput::ReadInput()
 {
@@ -11,6 +13,7 @@ void ReadInput::run(){
 
     int dl = 50,i,read=0;
     QString lblCnt;
+    QString ip,url;
     while(1){
 
 
@@ -34,6 +37,17 @@ void ReadInput::run(){
                     read = 1;
                     lblCnt = "Pezzi: "+QString::number(Costant::pCount);
                     Costant::wLcd->write(1,0,lblCnt.toLatin1().data());
+
+                    ip = QNetworkInterface::interfaceFromName("wlan0").addressEntries().first().ip().toString();
+
+                    QNetworkAccessManager *manager = new QNetworkAccessManager();
+                    QNetworkRequest request;
+
+                    url = "http://alucount.al.it/defaul/json/index/ip/"+ip+"/cardkey"+Costant::nfcId+"/pezzi/"+Costant::pCount;
+
+                    request.setUrl(QUrl(url));
+                    manager->get(request);
+
                 }
             }else{
 
