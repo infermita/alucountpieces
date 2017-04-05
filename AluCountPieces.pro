@@ -18,7 +18,9 @@ SOURCES += main.cpp \
     lib/nfcthread.cpp \
     lib/costant.cpp \
     lib/readinput.cpp \
-    lib/writelcd.cpp
+    lib/writelcd.cpp \
+    lib/jsoncommand.cpp \
+    lib/socketserver.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -35,4 +37,6 @@ HEADERS += \
     lib/nfcthread.h \
     lib/costant.h \
     lib/readinput.h \
-    lib/writelcd.h
+    lib/writelcd.h \
+    lib/jsoncommand.h \
+    lib/socketserver.h
