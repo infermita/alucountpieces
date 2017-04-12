@@ -54,7 +54,8 @@ int main(int argc, char *argv[])
     wiringPiSetup();
     pinMode (Costant::led1(), OUTPUT) ;
     pinMode (Costant::led2(), OUTPUT) ;
-    pinMode (Costant::in(), INPUT) ;
+    pinMode (Costant::in1(), INPUT) ;
+    pinMode (Costant::in2(), INPUT) ;
 
     SocketServer server;
 

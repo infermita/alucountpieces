@@ -9,7 +9,8 @@ public:
     Costant();
     static int led1() { return  4;}
     static int led2() { return  5;}
-    static int in()   { return  6;}
+    static int in1()   { return  0;}
+    static int in2()   { return  2;}
     static QString nfcId;
     static WriteLcd *wLcd;
     static int pCount;

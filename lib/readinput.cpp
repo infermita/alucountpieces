@@ -23,7 +23,7 @@ void ReadInput::run(){
     while(1){
 
 
-        if(digitalRead(Costant::in())){
+        if(digitalRead(Costant::in1()) || digitalRead(Costant::in2())){
 
             if(Costant::nfcId!=""){
 
@@ -62,7 +62,7 @@ void ReadInput::run(){
         }else{
             read = 0;
         }
-        usleep(1000);
+        usleep(10000);
 
     }
 
