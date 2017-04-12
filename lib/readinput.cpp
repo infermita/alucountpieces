@@ -62,7 +62,7 @@ void ReadInput::run(){
         }else{
             read = 0;
         }
-        usleep(100000);
+        usleep(1000);
 
     }
 
