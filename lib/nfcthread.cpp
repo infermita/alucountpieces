@@ -13,99 +13,99 @@ void NfcThread::run(){
     int i;
     int dl = 250;
     QString id;
+    QHash<QString, QString> resQ;
     const nfc_modulation nmMifare = {
         .nmt = NMT_ISO14443A,
         .nbr = NBR_106,
       };
-
-    Costant::wLcd->clear();
-    Costant::wLcd->write(0,0,"Attesa badge");
+    if(QString(getenv("USER"))!="alberto"){
+        Costant::wLcd->clear();
+        Costant::wLcd->write(0,0,"Attesa badge");
+        digitalWrite (Costant::led2(), HIGH) ;
+    }
 
     sleep(2);
     while(1){
 
-        nfc_init(&context);
-        if (context == NULL) {
-            qDebug() << "Unable to init libnfc (malloc)";
+        if(QString(getenv("USER"))!="alberto"){
 
-        }else{
-
-            qDebug() << "Context inizializzato";
-
-            pnd = nfc_open(context, NULL);
-            if (pnd == NULL) {
-                qDebug() << "ERROR: %s. Unable to open NFC device.";
+            nfc_init(&context);
+            if (context == NULL) {
+                qDebug() << "Unable to init libnfc (malloc)";
 
             }else{
 
-                qDebug() << "Nfc aperto";
+                qDebug() << "Context inizializzato";
 
-                if (nfc_initiator_init(pnd) < 0) {
-                    qDebug() << "nfc_initiator_init";
-                    nfc_close(pnd);
-                    nfc_exit(context);
+                pnd = nfc_open(context, NULL);
+                if (pnd == NULL) {
+                    qDebug() << "ERROR: %s. Unable to open NFC device.";
 
                 }else{
 
-                    qDebug() << "Nfc iniator";
-                    if(nfc_initiator_select_passive_target(pnd, nmMifare, NULL, 0, &nt) > 0){
+                    qDebug() << "Nfc aperto";
 
-                        qDebug() << "Nfc letto";
-                        id = "";
-                        for(i = 0; i < nt.nti.nai.szUidLen;i++){
-
-                            id += QString::number(nt.nti.nai.abtUid[i],16);
-
-                        }
-                        qDebug() << "Leggo: " << id;
-                        if(id=="25d9b1a5"){
-
-                            Costant::nfcId = id;
-
-                            Costant::pCount = 0;
-                            Costant::wLcd->clear();
-                            Costant::wLcd->write(0,0,"Mario Rossi");
-                            Costant::wLcd->write(0,1,"Pezzi: 0");
-
-                            for(i=0; i < 3;i++){
-
-                                digitalWrite (Costant::led1(), HIGH) ; delay (dl) ;
-                                digitalWrite (Costant::led1(), LOW); delay (dl) ;
-
-                            }
-
-                        }else{
-
-                            Costant::nfcId = "";
-
-                            Costant::wLcd->clear();
-                            Costant::wLcd->write(0,0,"Carta non");
-                            Costant::wLcd->write(0,1,"riconosciuta");
-
-                            for(i=0; i < 3;i++){
-
-                                digitalWrite (Costant::led2(), HIGH) ; delay (dl/2) ;
-                                digitalWrite (Costant::led2(), LOW); delay (dl/2) ;
-
-                            }
-
-                        }
-
-                        while(!nfc_initiator_target_is_present(pnd,&nt)){
-                            sleep(1);
-                        }
+                    if (nfc_initiator_init(pnd) < 0) {
+                        qDebug() << "nfc_initiator_init";
                         nfc_close(pnd);
                         nfc_exit(context);
 
+                    }else{
 
+                        qDebug() << "Nfc iniator";
+                        if(nfc_initiator_select_passive_target(pnd, nmMifare, NULL, 0, &nt) > 0){
+
+                            qDebug() << "Nfc letto";
+                            id = "";
+                            for(i = 0; i < nt.nti.nai.szUidLen;i++){
+
+                                id += QString::number(nt.nti.nai.abtUid[i],16);
+
+                            }
+                            qDebug() << "Leggo: " << id;
+                            resQ.clear();
+                            resQ = Costant::dao.singleRow("cards","cardkey='"+id+"'");
+
+                            if(resQ.count()){
+
+                                if(resQ.value("table")=="workers"){
+
+                                    if(resQ.value("value")!=Costant::workers){
+
+                                        Costant::workers = resQ.value("value");
+                                        Costant::wLcd->write(0,0,"O: "+Costant::workers);
+                                        Costant::pCount = 0;
+                                    }
+
+                                }
+                                if(resQ.value("table")=="molds"){
+
+                                    if(resQ.value("value")!=Costant::molds){
+                                        Costant::molds = resQ.value("value");
+                                        Costant::wLcd->write(0,1,"S: "+Costant::molds);
+                                        Costant::pCount = 0;
+                                    }
+
+                                }
+
+                            }
+
+                            while(!nfc_initiator_target_is_present(pnd,&nt)){
+                                sleep(1);
+                            }
+                            nfc_close(pnd);
+                            nfc_exit(context);
+
+
+
+                        }
 
                     }
 
                 }
-
             }
+            sleep(1);
         }
-        sleep(1);
 
     }
 

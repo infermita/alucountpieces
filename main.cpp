@@ -10,10 +10,20 @@
 #include <QString>
 #include "lib/writelcd.h"
 #include "lib/socketserver.h"
+#include "lib/dao.h"
+
+
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
 
 QString Costant::nfcId = "";
+QString Costant::workers = "";
+QString Costant::molds = "";
 //int Costant::lcdAddr = 0x27;
+
 WriteLcd *Costant::wLcd = new WriteLcd();
+Dao Costant::dao;
 int Costant::pCount = 0;
 void myMessageHandler(QtMsgType type, const QMessageLogContext &context,const QString &msg)
 {
@@ -51,11 +61,15 @@ int main(int argc, char *argv[])
 
     qInstallMessageHandler(myMessageHandler);
 
-    wiringPiSetup();
-    pinMode (Costant::led1(), OUTPUT) ;
-    pinMode (Costant::led2(), OUTPUT) ;
-    pinMode (Costant::in1(), INPUT) ;
-    pinMode (Costant::in2(), INPUT) ;
+    if(QString(getenv("USER"))!="alberto"){
+
+        wiringPiSetup();
+        pinMode (Costant::led1(), OUTPUT) ;
+        pinMode (Costant::led2(), OUTPUT) ;
+        pinMode (Costant::in1(), INPUT) ;
+        pinMode (Costant::in2(), INPUT) ;
+
+    }
 
     SocketServer server;
 
@@ -63,5 +77,6 @@ int main(int argc, char *argv[])
     nfcTh.start();
     ReadInput rd;
     rd.start();
+
     return a.exec();
 }

@@ -2,6 +2,7 @@
 #define COSTANT_H
 #include <QString>
 #include "lib/writelcd.h"
+#include "lib/dao.h"
 
 class Costant
 {
@@ -14,6 +15,9 @@ public:
     static QString nfcId;
     static WriteLcd *wLcd;
     static int pCount;
+    static Dao dao;
+    static QString workers;
+    static QString molds;
     //static int lcdAddr;
 };
 

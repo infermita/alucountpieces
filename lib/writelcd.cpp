@@ -3,10 +3,13 @@
 
 WriteLcd::WriteLcd()
 {
-    LCDAddr = 0x27;
-    BLEN = 1;
-    fd = wiringPiI2CSetup(LCDAddr);
-    init();
+    if(QString(getenv("USER"))!="alberto"){
+        LCDAddr = 0x27;
+        BLEN = 1;
+        fd = wiringPiI2CSetup(LCDAddr);
+        init();
+    }
+
 }
 void WriteLcd::write_word(int data){
     int temp = data;
