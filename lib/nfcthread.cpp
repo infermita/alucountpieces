@@ -146,6 +146,30 @@ void NfcThread::run(){
                                                 Costant::wLcd->write(0,0,lcd.toUtf8().data());
                                                 Costant::pCount = 0;
                                                 Costant::nfcIdW = id;
+                                            }else if(Costant::maintenance){
+
+                                                Costant::maintenance = false;
+                                                digitalWrite (Costant::led2(), LOW);
+                                                digitalWrite (Costant::led1(), HIGH);
+
+                                                lcd = "O:"+Costant::workers;
+                                                lcd = lcd+repeat.repeated(16 - lcd.length());
+                                                Costant::wLcd->write(0,0,lcd.toUtf8().data());
+
+                                                lcd = "S:"+Costant::molds;
+                                                lcd = lcd+repeat.repeated(16 - lcd.length());
+                                                Costant::wLcd->write(0,1,lcd.toUtf8().data());
+
+
+                                            }else{
+
+                                                Costant::workers = "";
+                                                Costant::nfcIdW = "";
+                                                digitalWrite (Costant::led1(), LOW);
+                                                digitalWrite (Costant::led2(), HIGH);
+                                                lcd = "FINE TURNO";
+                                                lcd = lcd+repeat.repeated(16 - lcd.length());
+                                                Costant::wLcd->write(0,0,lcd.toUtf8().data());
                                             }
 
                                         }
