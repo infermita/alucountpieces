@@ -18,8 +18,6 @@ void NfcThread::run(){
     QString id,url;
     QHash<QString, QString> resQ;
 
-    QNetworkAccessManager manager;
-
     const nfc_modulation nmMifare = {
         .nmt = NMT_ISO14443A,
         .nbr = NBR_106,
@@ -73,8 +71,9 @@ void NfcThread::run(){
 
                             if(Costant::config){
 
+                                QNetworkAccessManager managerC;
                                 url = "http://alucount.al.it/default/json/newcard/key/"+id;
-                                manager.get(QNetworkRequest(QUrl(url)));
+                                managerC.get(QNetworkRequest(QUrl(url)));
 
                             }else{
 
@@ -91,8 +90,11 @@ void NfcThread::run(){
                                             Costant::wLcd->write(0,0,QString("O:"+Costant::workers).toUtf8().data());
                                             Costant::pCount = 0;
                                             Costant::nfcIdW = id;
-                                        }else if(Costant::maintenance)
+                                        }else if(Costant::maintenance){
                                             Costant::maintenance = false;
+                                            digitalWrite (Costant::led2(), LOW);
+                                            digitalWrite (Costant::led1(), HIGH);
+                                        }
 
                                     }
                                     if(resQ.value("table")=="molds"){
@@ -131,9 +133,12 @@ void NfcThread::run(){
                                         }
                                         if(resQ.value("value")=="manutenzione"){
 
+                                            QNetworkAccessManager managerM;
                                             Costant::maintenance = true;
                                             url = "http://alucount.al.it/default/json/maintenance/cardkeyw/"+Costant::nfcIdW+"/cardkeym/"+Costant::nfcIdM;
-                                            manager.get(QNetworkRequest(QUrl(url)));
+                                            managerM.get(QNetworkRequest(QUrl(url)));
+                                            digitalWrite (Costant::led1(), LOW);
+                                            digitalWrite (Costant::led2(), HIGH);
 
                                         }
 
