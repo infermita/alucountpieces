@@ -22,7 +22,7 @@ void ReadInput::run(){
     HttpClient http;
     bool ipcheck = true;
 
-    mac = QNetworkInterface::interfaceFromName("wlan0").hardwareAddress();
+
 
     if(QString(getenv("USER"))!="alberto"){
 
@@ -30,6 +30,9 @@ void ReadInput::run(){
         Costant::wLcd->write(0,0,"Attesa rete");
     }
 
+    sleep(5);
+
+    mac = QNetworkInterface::interfaceFromName("wlan0").hardwareAddress();
 
     while(ipcheck){
 
