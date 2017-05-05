@@ -38,6 +38,8 @@ void ReadInput::run(){
 
         ip = QNetworkInterface::interfaceFromName("wlan0").addressEntries().first().ip().toString();
 
+        qDebug() << "Attesa rete con ip: " << ip;
+
         if(ip.split(".").count())
             ipcheck = false;
         else
