@@ -118,7 +118,8 @@ void ReadInput::run(){
                         lblCnt = "Pezzi: "+QString::number(Costant::pCount);
                         Costant::wLcd->write(0,1,lblCnt.toLatin1().data());
                         */
-                        url = "/mac/"+mac;
+                        url = "/default/json/index";
+                        url += "/mac/"+mac;
                         url += "/cardkeyw/"+Costant::nfcIdW;
                         url += "/cardkeym/"+Costant::nfcIdM;
                         url += "/worker/"+Costant::workers;
