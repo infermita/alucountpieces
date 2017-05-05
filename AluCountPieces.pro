@@ -21,7 +21,8 @@ SOURCES += main.cpp \
     lib/writelcd.cpp \
     lib/jsoncommand.cpp \
     lib/socketserver.cpp \
-    lib/dao.cpp
+    lib/dao.cpp \
+    lib/httpclient.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -41,4 +42,5 @@ HEADERS += \
     lib/writelcd.h \
     lib/jsoncommand.h \
     lib/socketserver.h \
-    lib/dao.h
+    lib/dao.h \
+    lib/httpclient.h

@@ -3,9 +3,7 @@
 #include <wiringPi.h>
 #include <QDebug>
 #include "lib/writelcd.h"
-#include <QNetworkAccessManager>
-#include <QUrl>
-#include <QNetworkRequest>
+#include "lib/httpclient.h"
 
 NfcThread::NfcThread()
 {
@@ -17,6 +15,7 @@ void NfcThread::run(){
     int dl = 250;
     QString id,url;
     QHash<QString, QString> resQ;
+    HttpClient http;
 
     const nfc_modulation nmMifare = {
         .nmt = NMT_ISO14443A,
@@ -28,7 +27,7 @@ void NfcThread::run(){
         digitalWrite (Costant::led2(), HIGH) ;
     }
 
-    sleep(2);
+    sleep(10);
     while(1){
 
         if(QString(getenv("USER"))!="alberto"){
@@ -71,9 +70,8 @@ void NfcThread::run(){
 
                             if(Costant::config){
 
-                                QNetworkAccessManager managerC;
-                                url = "http://alucount.al.it/default/json/newcard/key/"+id;
-                                managerC.get(QNetworkRequest(QUrl(url)));
+                                url = "/default/json/newcard/key/"+id;
+                                http.Get(url);
 
                             }else{
 
@@ -133,10 +131,9 @@ void NfcThread::run(){
                                         }
                                         if(resQ.value("value")=="manutenzione"){
 
-                                            QNetworkAccessManager managerM;
                                             Costant::maintenance = true;
-                                            url = "http://alucount.al.it/default/json/maintenance/cardkeyw/"+Costant::nfcIdW+"/cardkeym/"+Costant::nfcIdM;
-                                            managerM.get(QNetworkRequest(QUrl(url)));
+                                            url = "/default/json/maintenance/cardkeyw/"+Costant::nfcIdW+"/cardkeym/"+Costant::nfcIdM;
+                                            http.Get(url);
                                             digitalWrite (Costant::led1(), LOW);
                                             digitalWrite (Costant::led2(), HIGH);
 

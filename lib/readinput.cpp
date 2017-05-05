@@ -3,14 +3,11 @@
 #include "lib/costant.h"
 #include <QDebug>
 #include <QNetworkInterface>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QUrl>
-#include <QEventLoop>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
 #include "lib/dao.h"
+#include "lib/httpclient.h"
 
 ReadInput::ReadInput()
 {
@@ -21,29 +18,20 @@ void ReadInput::run(){
     int dl = 50,i,read=0;
     QString lblCnt;
     QString ip,url,mac;
-    QNetworkAccessManager manager;
-    QEventLoop loop;
-    QNetworkReply *rep;
     QString resp;
+    HttpClient http;
+
+    sleep(10);
 
     mac = QNetworkInterface::interfaceFromName("wlan0").hardwareAddress();
     ip = QNetworkInterface::interfaceFromName("wlan0").addressEntries().first().ip().toString();
 
-    url = "http://alucount.al.it/default/json/updatest/mac/"+mac+"/ip/"+ip;
+    url = "/default/json/updatest/mac/"+mac+"/ip/"+ip;
+    http.Get(url);
 
-    connect(&manager, SIGNAL(finished(QNetworkReply*)),&loop, SLOT(quit()));
-    rep = manager.get(QNetworkRequest(QUrl(url)));
-    loop.exec();
+    url = "/default/json/getdb/";
 
-    resp = rep->readAll();
-
-    url = "http://alucount.al.it/default/json/getdb/";
-
-    //connect(&manager, SIGNAL(finished(QNetworkReply*)),&loop, SLOT(quit()));
-    rep = manager.get(QNetworkRequest(QUrl(url)));
-    loop.exec();
-
-    resp = rep->readAll();
+    resp = http.Get(url);;
 
     QJsonParseError *error = new QJsonParseError();
     QJsonDocument d = QJsonDocument::fromJson(resp.toUtf8(),error);
@@ -105,16 +93,14 @@ void ReadInput::run(){
                         lblCnt = "Pezzi: "+QString::number(Costant::pCount);
                         Costant::wLcd->write(0,1,lblCnt.toLatin1().data());
                         */
-                        url = "http://alucount.al.it/default/json/index";
-                        url += "/mac/"+mac;
+                        url = "/mac/"+mac;
                         url += "/cardkeyw/"+Costant::nfcIdW;
                         url += "/cardkeym/"+Costant::nfcIdM;
                         url += "/worker/"+Costant::workers;
                         url += "/mold/"+Costant::molds;
                         url += "/pezzi/"+QString::number(Costant::pCount);
 
-                        manager.get(QNetworkRequest(QUrl(url)));
-
+                        http.Get(url);
                     }
                 }/*else{
 
