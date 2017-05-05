@@ -84,7 +84,7 @@ void ReadInput::run(){
 
             if(digitalRead(Costant::in1()) || digitalRead(Costant::in2())){
 
-                if(Costant::nfcIdW!="" && Costant::nfcIdM!=""){
+                if(Costant::nfcIdW!="" && Costant::nfcIdM!="" && Costant::maintenance==false){
 
                     if(read==0){
 

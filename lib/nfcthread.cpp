@@ -101,7 +101,8 @@ void NfcThread::run(){
                                             Costant::wLcd->write(0,1,QString("S:"+Costant::molds).toUtf8().data());
                                             Costant::pCount = 0;
                                             Costant::nfcIdM = id;
-                                        }
+                                        }else if(Costant::maintenance)
+                                            Costant::maintenance = false;
 
                                     }
                                     if(resQ.value("table")=="masterkeys"){
@@ -126,6 +127,13 @@ void NfcThread::run(){
                                                 Costant::pCount = 0;
                                                 Costant::nfcIdM = id;
                                             }
+
+                                        }
+                                        if(resQ.value("value")=="manutenzione"){
+
+                                            Costant::maintenance = true;
+                                            url = "http://alucount.al.it/default/json/maintenance/cardkeyw/"+Costant::nfcIdW+"/cardkeym/"+Costant::nfcIdM;
+                                            manager.get(QNetworkRequest(QUrl(url)));
 
                                         }
 

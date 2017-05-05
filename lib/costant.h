@@ -20,6 +20,7 @@ public:
     static QString workers;
     static QString molds;
     static bool config;
+    static bool maintenance;
     //static int lcdAddr;
 };
 

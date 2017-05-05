@@ -22,6 +22,7 @@ QString Costant::nfcIdM = "";
 QString Costant::workers = "";
 QString Costant::molds = "";
 bool Costant::config = false;
+bool Costant::maintenance = false;
 //int Costant::lcdAddr = 0x27;
 
 WriteLcd *Costant::wLcd = new WriteLcd();
