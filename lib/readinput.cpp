@@ -39,7 +39,7 @@ void ReadInput::run(){
 
     url = "http://alucount.al.it/default/json/getdb/";
 
-    connect(&manager, SIGNAL(finished(QNetworkReply*)),&loop, SLOT(quit()));
+    //connect(&manager, SIGNAL(finished(QNetworkReply*)),&loop, SLOT(quit()));
     rep = manager.get(QNetworkRequest(QUrl(url)));
     loop.exec();
 

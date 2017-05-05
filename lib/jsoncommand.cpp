@@ -7,10 +7,11 @@
 #include <QHash>
 #include <QCryptographicHash>
 #include <QSettings>
+#include "lib/costant.h"
 
 JsonCommand::JsonCommand()
 {
-    options << "halt" << "reboot" << "restart";
+    options << "halt" << "reboot" << "restart" << "setconfig" << "rmconfig";
 
 }
 void JsonCommand::ElaborateCommand(QTcpSocket *socket){
@@ -70,6 +71,18 @@ void JsonCommand::ElaborateCommand(QTcpSocket *socket){
             //restart
             SendResponse(socket,"ok "+cmd);
             p.startDetached("/etc/init.d/alucount restart");
+            break;
+        case 3:
+            //setconfig
+            SendResponse(socket,"ok "+cmd);
+            Costant::config = true;
+            qDebug() << "Config nfc mode on ";
+            break;
+        case 4:
+            //rmconfig
+            SendResponse(socket,"ok "+cmd);
+            Costant::config = false;
+            qDebug() << "Config nfc mode off ";
             break;
         default:
             SendResponse(socket,"error "+cmd);

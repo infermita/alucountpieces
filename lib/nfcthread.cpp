@@ -3,6 +3,9 @@
 #include <wiringPi.h>
 #include <QDebug>
 #include "lib/writelcd.h"
+#include <QNetworkAccessManager>
+#include <QUrl>
+#include <QNetworkRequest>
 
 NfcThread::NfcThread()
 {
@@ -12,8 +15,11 @@ void NfcThread::run(){
 
     int i;
     int dl = 250;
-    QString id;
+    QString id,url;
     QHash<QString, QString> resQ;
+
+    QNetworkAccessManager manager;
+
     const nfc_modulation nmMifare = {
         .nmt = NMT_ISO14443A,
         .nbr = NBR_106,
@@ -59,39 +65,25 @@ void NfcThread::run(){
                             id = "";
                             for(i = 0; i < nt.nti.nai.szUidLen;i++){
 
-                                id += QString::number(nt.nti.nai.abtUid[i],16);
+                                QString hex;
+                                id += hex.sprintf("%02x",nt.nti.nai.abtUid[i]).toUpper();
 
                             }
                             qDebug() << "Leggo: " << id;
-                            resQ.clear();
-                            resQ = Costant::dao.singleRow("cards","cardkey='"+id+"'");
 
-                            if(resQ.count()){
+                            if(Costant::config){
 
-                                if(resQ.value("table")=="workers"){
+                                url = "http://alucount.al.it/default/json/newcard/key/"+id;
+                                manager.get(QNetworkRequest(QUrl(url)));
 
-                                    if(resQ.value("value")!=Costant::workers){
+                            }else{
 
-                                        Costant::workers = resQ.value("value");
-                                        Costant::wLcd->write(0,0,QString("O:"+Costant::workers).toUtf8().data());
-                                        Costant::pCount = 0;
-                                        Costant::nfcIdW = id;
-                                    }
+                                resQ.clear();
+                                resQ = Costant::dao.singleRow("cards","cardkey='"+id+"'");
 
-                                }
-                                if(resQ.value("table")=="molds"){
+                                if(resQ.count()){
 
-                                    if(resQ.value("value")!=Costant::molds){
-                                        Costant::molds = resQ.value("value");
-                                        Costant::wLcd->write(0,1,QString("S:"+Costant::molds).toUtf8().data());
-                                        Costant::pCount = 0;
-                                        Costant::nfcIdM = id;
-                                    }
-
-                                }
-                                if(resQ.value("table")=="masterkeys"){
-
-                                    if(resQ.value("value")=="operaio"){
+                                    if(resQ.value("table")=="workers"){
 
                                         if(resQ.value("value")!=Costant::workers){
 
@@ -102,10 +94,9 @@ void NfcThread::run(){
                                         }
 
                                     }
-                                    if(resQ.value("value")=="stampo"){
+                                    if(resQ.value("table")=="molds"){
 
                                         if(resQ.value("value")!=Costant::molds){
-
                                             Costant::molds = resQ.value("value");
                                             Costant::wLcd->write(0,1,QString("S:"+Costant::molds).toUtf8().data());
                                             Costant::pCount = 0;
@@ -113,14 +104,39 @@ void NfcThread::run(){
                                         }
 
                                     }
+                                    if(resQ.value("table")=="masterkeys"){
+
+                                        if(resQ.value("value")=="operaio"){
+
+                                            if(resQ.value("value")!=Costant::workers){
+
+                                                Costant::workers = resQ.value("value");
+                                                Costant::wLcd->write(0,0,QString("O:"+Costant::workers).toUtf8().data());
+                                                Costant::pCount = 0;
+                                                Costant::nfcIdW = id;
+                                            }
+
+                                        }
+                                        if(resQ.value("value")=="stampo"){
+
+                                            if(resQ.value("value")!=Costant::molds){
+
+                                                Costant::molds = resQ.value("value");
+                                                Costant::wLcd->write(0,1,QString("S:"+Costant::molds).toUtf8().data());
+                                                Costant::pCount = 0;
+                                                Costant::nfcIdM = id;
+                                            }
+
+                                        }
+
+                                    }
 
                                 }
 
-                            }
-
-                            if(Costant::nfcIdM!="" && Costant::nfcIdW!=""){
-                                digitalWrite (Costant::led2(), LOW);
-                                digitalWrite (Costant::led1(), HIGH);
+                                if(Costant::nfcIdM!="" && Costant::nfcIdW!=""){
+                                    digitalWrite (Costant::led2(), LOW);
+                                    digitalWrite (Costant::led1(), HIGH);
+                                }
                             }
 
                             while(!nfc_initiator_target_is_present(pnd,&nt)){

@@ -19,6 +19,7 @@ public:
     static Dao dao;
     static QString workers;
     static QString molds;
+    static bool config;
     //static int lcdAddr;
 };
 
