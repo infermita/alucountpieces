@@ -91,7 +91,8 @@ void NfcThread::run(){
                                             Costant::wLcd->write(0,0,QString("O:"+Costant::workers).toUtf8().data());
                                             Costant::pCount = 0;
                                             Costant::nfcIdW = id;
-                                        }
+                                        }else if(Costant::maintenance)
+                                            Costant::maintenance = false;
 
                                     }
                                     if(resQ.value("table")=="molds"){
@@ -101,8 +102,7 @@ void NfcThread::run(){
                                             Costant::wLcd->write(0,1,QString("S:"+Costant::molds).toUtf8().data());
                                             Costant::pCount = 0;
                                             Costant::nfcIdM = id;
-                                        }else if(Costant::maintenance)
-                                            Costant::maintenance = false;
+                                        }
 
                                     }
                                     if(resQ.value("table")=="masterkeys"){
