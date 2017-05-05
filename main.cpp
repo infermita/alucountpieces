@@ -17,7 +17,8 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
-QString Costant::nfcId = "";
+QString Costant::nfcIdW = "";
+QString Costant::nfcIdM = "";
 QString Costant::workers = "";
 QString Costant::molds = "";
 //int Costant::lcdAddr = 0x27;

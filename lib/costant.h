@@ -12,7 +12,8 @@ public:
     static int led2() { return  5;}
     static int in1()   { return  0;}
     static int in2()   { return  2;}
-    static QString nfcId;
+    static QString nfcIdW;
+    static QString nfcIdM;
     static WriteLcd *wLcd;
     static int pCount;
     static Dao dao;

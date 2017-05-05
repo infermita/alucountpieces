@@ -20,10 +20,22 @@ void ReadInput::run(){
 
     int dl = 50,i,read=0;
     QString lblCnt;
-    QString ip,url;
+    QString ip,url,mac;
     QNetworkAccessManager manager;
     QEventLoop loop;
     QNetworkReply *rep;
+    QString resp;
+
+    mac = QNetworkInterface::interfaceFromName("wlan0").hardwareAddress();
+    ip = QNetworkInterface::interfaceFromName("wlan0").addressEntries().first().ip().toString();
+
+    url = "http://alucount.al.it/default/json/updatest/mac/"+mac+"/ip/"+ip;
+
+    connect(&manager, SIGNAL(finished(QNetworkReply*)),&loop, SLOT(quit()));
+    rep = manager.get(QNetworkRequest(QUrl(url)));
+    loop.exec();
+
+    resp = rep->readAll();
 
     url = "http://alucount.al.it/default/json/getdb/";
 
@@ -31,7 +43,7 @@ void ReadInput::run(){
     rep = manager.get(QNetworkRequest(QUrl(url)));
     loop.exec();
 
-    QString resp = rep->readAll();
+    resp = rep->readAll();
 
     QJsonParseError *error = new QJsonParseError();
     QJsonDocument d = QJsonDocument::fromJson(resp.toUtf8(),error);
@@ -72,7 +84,7 @@ void ReadInput::run(){
 
             if(digitalRead(Costant::in1()) || digitalRead(Costant::in2())){
 
-                if(Costant::nfcId!=""){
+                if(Costant::nfcIdW!="" && Costant::nfcIdM!=""){
 
                     if(read==0){
 
@@ -91,9 +103,12 @@ void ReadInput::run(){
                         lblCnt = "Pezzi: "+QString::number(Costant::pCount);
                         Costant::wLcd->write(0,1,lblCnt.toLatin1().data());
 
-                        ip = QNetworkInterface::interfaceFromName("wlan0").addressEntries().first().ip().toString();
-
-                        url = "http://alucount.al.it/default/json/index/ip/"+ip+"/cardkey/"+Costant::nfcId+"/pezzi/"+QString::number(Costant::pCount);
+                        url = "http://alucount.al.it/default/json/index/";
+                        url + "/mac/"+mac+"/";
+                        url + "/cardkeyw/"+Costant::nfcIdW+"/";
+                        url + "/cardkeym/"+Costant::nfcIdM+"/";
+                        url + "/worker/"+Costant::workers+"/";
+                        url + "/mold/"+Costant::molds+"/";
 
                         manager.get(QNetworkRequest(QUrl(url)));
 

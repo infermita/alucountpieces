@@ -73,8 +73,9 @@ void NfcThread::run(){
                                     if(resQ.value("value")!=Costant::workers){
 
                                         Costant::workers = resQ.value("value");
-                                        Costant::wLcd->write(0,0,"O: "+Costant::workers);
+                                        Costant::wLcd->write(0,0,QString("O:"+Costant::workers).toUtf8().data());
                                         Costant::pCount = 0;
+                                        Costant::nfcIdW = id;
                                     }
 
                                 }
@@ -82,8 +83,35 @@ void NfcThread::run(){
 
                                     if(resQ.value("value")!=Costant::molds){
                                         Costant::molds = resQ.value("value");
-                                        Costant::wLcd->write(0,1,"S: "+Costant::molds);
+                                        Costant::wLcd->write(0,1,QString("S:"+Costant::molds).toUtf8().data());
                                         Costant::pCount = 0;
+                                        Costant::nfcIdM = id;
+                                    }
+
+                                }
+                                if(resQ.value("table")=="masterkeys"){
+
+                                    if(resQ.value("value")=="operatio"){
+
+                                        if(resQ.value("value")!=Costant::workers){
+
+                                            Costant::workers = resQ.value("value");
+                                            Costant::wLcd->write(0,0,QString("O:"+Costant::workers).toUtf8().data());
+                                            Costant::pCount = 0;
+                                            Costant::nfcIdW = id;
+                                        }
+
+                                    }
+                                    if(resQ.value("value")=="operatio"){
+
+                                        if(resQ.value("value")!=Costant::molds){
+
+                                            Costant::molds = resQ.value("value");
+                                            Costant::wLcd->write(0,1,QString("S:"+Costant::molds).toUtf8().data());
+                                            Costant::pCount = 0;
+                                            Costant::nfcIdM = id;
+                                        }
+
                                     }
 
                                 }
