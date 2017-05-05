@@ -92,6 +92,11 @@ void NfcThread::run(){
                                             Costant::maintenance = false;
                                             digitalWrite (Costant::led2(), LOW);
                                             digitalWrite (Costant::led1(), HIGH);
+                                        }else{
+                                            Costant::workers = "";
+                                            Costant::nfcIdW = "";
+                                            digitalWrite (Costant::led1(), LOW);
+                                            digitalWrite (Costant::led2(), HIGH);
                                         }
 
                                     }
