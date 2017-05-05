@@ -16,6 +16,7 @@ void NfcThread::run(){
     QString id,url;
     QHash<QString, QString> resQ;
     HttpClient http;
+    QString lcd,repeat = " ";
 
     const nfc_modulation nmMifare = {
         .nmt = NMT_ISO14443A,
@@ -84,19 +85,36 @@ void NfcThread::run(){
                                         if(resQ.value("value")!=Costant::workers){
 
                                             Costant::workers = resQ.value("value");
-                                            Costant::wLcd->write(0,0,QString("O:"+Costant::workers).toUtf8().data());
+                                            lcd = "O:"+Costant::workers;
+                                            lcd = lcd+repeat.repeated(16 - lcd.length());
+                                            Costant::wLcd->write(0,0,lcd.toUtf8().data());
                                             Costant::pCount = 0;
                                             Costant::nfcIdW = id;
+
                                         }else if(Costant::maintenance){
+
                                             Costant::maintenance = false;
                                             digitalWrite (Costant::led2(), LOW);
                                             digitalWrite (Costant::led1(), HIGH);
+
+                                            lcd = "O:"+Costant::workers;
+                                            lcd = lcd+repeat.repeated(16 - lcd.length());
+                                            Costant::wLcd->write(0,0,lcd.toUtf8().data());
+
+                                            lcd = "S:"+Costant::molds;
+                                            lcd = lcd+repeat.repeated(16 - lcd.length());
+                                            Costant::wLcd->write(0,1,lcd.toUtf8().data());
+
+
                                         }else{
+
                                             Costant::workers = "";
                                             Costant::nfcIdW = "";
                                             digitalWrite (Costant::led1(), LOW);
                                             digitalWrite (Costant::led2(), HIGH);
-                                            Costant::wLcd->write(0,0,"O:fine turno");
+                                            lcd = "FINE TURNO";
+                                            lcd = lcd+repeat.repeated(16 - lcd.length());
+                                            Costant::wLcd->write(0,0,lcd.toUtf8().data());
                                         }
 
                                     }
@@ -104,7 +122,11 @@ void NfcThread::run(){
 
                                         if(resQ.value("value")!=Costant::molds){
                                             Costant::molds = resQ.value("value");
-                                            Costant::wLcd->write(0,1,QString("S:"+Costant::molds).toUtf8().data());
+
+                                            lcd = "S:"+Costant::molds;
+                                            lcd = lcd+repeat.repeated(16 - lcd.length());
+
+                                            Costant::wLcd->write(0,1,lcd.toUtf8().data());
                                             Costant::pCount = 0;
                                             Costant::nfcIdM = id;
                                         }
@@ -117,7 +139,11 @@ void NfcThread::run(){
                                             if(resQ.value("value")!=Costant::workers){
 
                                                 Costant::workers = resQ.value("value");
-                                                Costant::wLcd->write(0,0,QString("O:"+Costant::workers).toUtf8().data());
+
+                                                lcd = "O:"+Costant::workers;
+                                                lcd = lcd+repeat.repeated(16 - lcd.length());
+
+                                                Costant::wLcd->write(0,0,lcd.toUtf8().data());
                                                 Costant::pCount = 0;
                                                 Costant::nfcIdW = id;
                                             }
@@ -128,13 +154,23 @@ void NfcThread::run(){
                                             if(resQ.value("value")!=Costant::molds){
 
                                                 Costant::molds = resQ.value("value");
-                                                Costant::wLcd->write(0,1,QString("S:"+Costant::molds).toUtf8().data());
+
+                                                lcd = "S:"+Costant::molds;
+                                                lcd = lcd+repeat.repeated(16 - lcd.length());
+
+                                                Costant::wLcd->write(0,1,lcd.toUtf8().data());
                                                 Costant::pCount = 0;
                                                 Costant::nfcIdM = id;
                                             }
 
                                         }
                                         if(resQ.value("value")=="manutenzione"){
+
+                                            Costant::wLcd->clear();
+
+                                            lcd = "IN MANUTENZIONE";
+
+                                            Costant::wLcd->write(0,0,lcd.toUtf8().data());
 
                                             Costant::maintenance = true;
                                             url = "/default/json/maintenance/cardkeyw/"+Costant::nfcIdW+"/cardkeym/"+Costant::nfcIdM;
