@@ -118,7 +118,7 @@ void NfcThread::run(){
 
                             }
 
-                            if(){
+                            if(Costant::nfcIdM!="" && Costant::nfcIdW!=""){
                                 digitalWrite (Costant::led2(), LOW);
                                 digitalWrite (Costant::led1(), HIGH);
                             }
