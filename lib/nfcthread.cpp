@@ -96,7 +96,7 @@ void NfcThread::run(){
                                             Costant::nfcIdW = "";
                                             digitalWrite (Costant::led1(), LOW);
                                             digitalWrite (Costant::led2(), HIGH);
-                                            Costant::wLcd->write(0,0,QString("O:fine turno");
+                                            Costant::wLcd->write(0,0,"O:fine turno");
                                         }
 
                                     }
