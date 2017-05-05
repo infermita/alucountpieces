@@ -40,7 +40,7 @@ void ReadInput::run(){
 
         qDebug() << "Attesa rete con ip: " << ip << " count: " << QString::number(ip.split(".").count());
 
-        if(ip.split(".").count())
+        if(ip.split(".").count()==4)
             ipcheck = false;
         else
             sleep(1);
