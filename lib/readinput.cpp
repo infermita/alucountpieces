@@ -111,6 +111,7 @@ void ReadInput::run(){
                         url += "/cardkeym/"+Costant::nfcIdM;
                         url += "/worker/"+Costant::workers;
                         url += "/mold/"+Costant::molds;
+                        url += "/pezzi/"+QString::number(Costant::pCount);
 
                         manager.get(QNetworkRequest(QUrl(url)));
 
