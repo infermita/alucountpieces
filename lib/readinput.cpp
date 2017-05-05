@@ -20,11 +20,26 @@ void ReadInput::run(){
     QString ip,url,mac;
     QString resp;
     HttpClient http;
-
-    sleep(10);
+    bool ipcheck = true;
 
     mac = QNetworkInterface::interfaceFromName("wlan0").hardwareAddress();
-    ip = QNetworkInterface::interfaceFromName("wlan0").addressEntries().first().ip().toString();
+
+    if(QString(getenv("USER"))!="alberto"){
+
+        Costant::wLcd->clear();
+        Costant::wLcd->write(0,0,"Attesa rete");
+    }
+
+
+    while(ipcheck){
+
+        ip = QNetworkInterface::interfaceFromName("wlan0").addressEntries().first().ip().toString();
+
+        if(ip.split(".").count())
+            ipcheck = false;
+        else
+            sleep(1);
+    }
 
     url = "/default/json/updatest/mac/"+mac+"/ip/"+ip;
     http.Get(url);
@@ -65,6 +80,11 @@ void ReadInput::run(){
         }
     }
 
+    if(QString(getenv("USER"))!="alberto"){
+
+        Costant::wLcd->clear();
+        Costant::wLcd->write(0,0,"Attesa badge");
+    }
 
     while(1){
 

@@ -21,13 +21,12 @@ void NfcThread::run(){
         .nmt = NMT_ISO14443A,
         .nbr = NBR_106,
       };
+
     if(QString(getenv("USER"))!="alberto"){
-        Costant::wLcd->clear();
-        Costant::wLcd->write(0,0,"Attesa badge");
         digitalWrite (Costant::led2(), HIGH) ;
     }
 
-    sleep(10);
+
     while(1){
 
         if(QString(getenv("USER"))!="alberto"){
