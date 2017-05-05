@@ -91,7 +91,7 @@ void NfcThread::run(){
                                 }
                                 if(resQ.value("table")=="masterkeys"){
 
-                                    if(resQ.value("value")=="operatio"){
+                                    if(resQ.value("value")=="operaio"){
 
                                         if(resQ.value("value")!=Costant::workers){
 
@@ -102,7 +102,7 @@ void NfcThread::run(){
                                         }
 
                                     }
-                                    if(resQ.value("value")=="operatio"){
+                                    if(resQ.value("value")=="stampo"){
 
                                         if(resQ.value("value")!=Costant::molds){
 
