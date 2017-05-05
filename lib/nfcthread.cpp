@@ -118,6 +118,11 @@ void NfcThread::run(){
 
                             }
 
+                            if(){
+                                digitalWrite (Costant::led2(), LOW);
+                                digitalWrite (Costant::led1(), HIGH);
+                            }
+
                             while(!nfc_initiator_target_is_present(pnd,&nt)){
                                 sleep(1);
                             }

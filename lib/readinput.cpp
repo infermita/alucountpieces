@@ -97,28 +97,31 @@ void ReadInput::run(){
 
 
                         }
+                        digitalWrite (Costant::led1(), HIGH);
                         Costant::pCount++;
                         qDebug() << "Conto: " << Costant::pCount;
                         read = 1;
+                        /*
                         lblCnt = "Pezzi: "+QString::number(Costant::pCount);
                         Costant::wLcd->write(0,1,lblCnt.toLatin1().data());
-
+                        */
                         url = "http://alucount.al.it/default/json/index/";
-                        url + "/mac/"+mac+"/";
-                        url + "/cardkeyw/"+Costant::nfcIdW+"/";
-                        url + "/cardkeym/"+Costant::nfcIdM+"/";
-                        url + "/worker/"+Costant::workers+"/";
-                        url + "/mold/"+Costant::molds+"/";
+                        url += "/mac/"+mac+"/";
+                        url += "/cardkeyw/"+Costant::nfcIdW+"/";
+                        url += "/cardkeym/"+Costant::nfcIdM+"/";
+                        url += "/worker/"+Costant::workers+"/";
+                        url += "/mold/"+Costant::molds+"/";
 
                         manager.get(QNetworkRequest(QUrl(url)));
 
                     }
-                }else{
+                }/*else{
 
                     digitalWrite (Costant::led2(), HIGH) ; delay (dl) ;
                     digitalWrite (Costant::led2(), LOW);delay (dl) ;
                     read = 0;
-                }
+                    digitalWrite (Costant::led1(), HIGH);
+                }*/
 
             }else{
                 read = 0;
