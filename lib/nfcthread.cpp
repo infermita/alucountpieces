@@ -15,7 +15,6 @@ void NfcThread::run(){
     int dl = 250;
     QString id,url;
     QHash<QString, QString> resQ;
-    HttpClient http;
     QString lcd,repeat = " ";
 
     const nfc_modulation nmMifare = {
@@ -72,7 +71,7 @@ void NfcThread::run(){
                             if(Costant::config){
 
                                 url = "/default/json/newcard/key/"+id;
-                                http.Get(url);
+                                Costant::http.Get(url);
 
                             }else{
 
@@ -200,7 +199,7 @@ void NfcThread::run(){
 
                                             Costant::maintenance = true;
                                             url = "/default/json/maintenance/cardkeyw/"+Costant::nfcIdW+"/cardkeym/"+Costant::nfcIdM;
-                                            http.Get(url);
+                                            Costant::http.Get(url);
                                             digitalWrite (Costant::led1(), LOW);
                                             digitalWrite (Costant::led2(), HIGH);
 

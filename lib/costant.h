@@ -3,6 +3,7 @@
 #include <QString>
 #include "lib/writelcd.h"
 #include "lib/dao.h"
+#include "lib/httpclient.h"
 
 class Costant
 {
@@ -21,6 +22,7 @@ public:
     static QString molds;
     static bool config;
     static bool maintenance;
+    static HttpClient http;
     //static int lcdAddr;
 };
 

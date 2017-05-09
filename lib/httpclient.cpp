@@ -8,6 +8,7 @@
 
 HttpClient::HttpClient()
 {
+    lock = false;
 
 }
 QString HttpClient::Get(QString url){
@@ -16,25 +17,35 @@ QString HttpClient::Get(QString url){
     QEventLoop loop;
     QNetworkReply *rep;
 
-    url = "http://alucount.al.it"+url;
+    if(lock==false){
 
-    QObject::connect(&manager, SIGNAL(finished(QNetworkReply*)),&loop, SLOT(quit()));
-    rep = manager.get(QNetworkRequest(QUrl(url)));
+        lock = true;
 
-    qDebug() << "HttpC Chiamo url: " << url;
+        url = "http://alucount.al.it"+url;
 
-    loop.exec();
+        QObject::connect(&manager, SIGNAL(finished(QNetworkReply*)),&loop, SLOT(quit()));
+        rep = manager.get(QNetworkRequest(QUrl(url)));
 
-    QVariant statusCode = rep->attribute( QNetworkRequest::HttpStatusCodeAttribute );
+        qDebug() << "HttpC Chiamo url: " << url;
 
-    qDebug() << "HttpC risposta: " << statusCode.toString();
+        loop.exec();
 
-    if(statusCode.toInt()==200){
+        QVariant statusCode = rep->attribute( QNetworkRequest::HttpStatusCodeAttribute );
 
-        return rep->readAll();
+        qDebug() << "HttpC risposta: " << statusCode.toString();
+
+        lock = false;
+
+        if(statusCode.toInt()==200){
+
+            return rep->readAll();
+
+        }else{
+            return "";
+        }
 
     }else{
-        return "";
+        Get(url);
     }
 
 }

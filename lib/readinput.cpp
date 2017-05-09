@@ -19,7 +19,6 @@ void ReadInput::run(){
     QString lblCnt;
     QString ip,url,mac;
     QString resp;
-    HttpClient http;
     bool ipcheck = true;
 
     sleep(5);
@@ -43,11 +42,11 @@ void ReadInput::run(){
         }
 
         url = "/default/json/updatest/mac/"+mac+"/ip/"+ip;
-        http.Get(url);
+        Costant::http.Get(url);
 
         url = "/default/json/getdb/";
 
-        resp = http.Get(url);;
+        resp = Costant::http.Get(url);;
 
         QJsonParseError *error = new QJsonParseError();
         QJsonDocument d = QJsonDocument::fromJson(resp.toUtf8(),error);
@@ -126,7 +125,7 @@ void ReadInput::run(){
                         //url += "/pezzi/"+QString::number(Costant::pCount);
                         url += "/foot/"+foot;
 
-                        http.Get(url);
+                        Costant::http.Get(url);
                     }
                 }/*else{
 

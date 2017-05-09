@@ -11,6 +11,7 @@
 #include "lib/writelcd.h"
 #include "lib/socketserver.h"
 #include "lib/dao.h"
+#include "lib/httpclient.h"
 
 
 #include <QJsonDocument>
@@ -25,6 +26,8 @@ QString Costant::workers = "";
 QString Costant::molds = "";
 bool Costant::config = false;
 bool Costant::maintenance = false;
+HttpClient Costant::http;
+
 //int Costant::lcdAddr = 0x27;
 
 WriteLcd *Costant::wLcd = new WriteLcd();
