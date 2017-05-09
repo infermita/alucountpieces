@@ -25,8 +25,9 @@ void NfcThread::run(){
 
     if(QString(getenv("USER"))!="alberto"){
         digitalWrite (Costant::led2(), HIGH) ;
+        Costant::wLcd->clear();
+        Costant::wLcd->write(0,0,"Attesa rete");
     }
-
 
     while(1){
 
