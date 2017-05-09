@@ -80,7 +80,7 @@ void NfcThread::run(){
 
                                 if(resQ.count()){
 
-                                    if(resQ.value("table")=="workers"){
+                                    if(resQ.value("table")=="workers" || (resQ.value("table")=="masterkeys" && resQ.value("value")=="operaio")){
 
                                         if(resQ.value("value")!=Costant::workers){
 
@@ -118,7 +118,7 @@ void NfcThread::run(){
                                         }
 
                                     }
-                                    if(resQ.value("table")=="molds"){
+                                    if(resQ.value("table")=="molds" || (resQ.value("table")=="masterkeys" && resQ.value("value")=="operaio")){
 
                                         if(resQ.value("value")!=Costant::molds){
                                             Costant::molds = resQ.value("value");
@@ -132,8 +132,8 @@ void NfcThread::run(){
                                         }
 
                                     }
-                                    if(resQ.value("table")=="masterkeys"){
-
+                                    if(resQ.value("table")=="masterkeys" && resQ.value("value")=="manutenzione"){
+                                        /*
                                         if(resQ.value("value")=="operaio"){
 
                                             if(resQ.value("value")!=Costant::workers){
@@ -188,7 +188,8 @@ void NfcThread::run(){
                                             }
 
                                         }
-                                        if(resQ.value("value")=="manutenzione"){
+                                        */
+                                        //if(resQ.value("value")=="manutenzione"){
 
                                             Costant::wLcd->clear();
 
@@ -202,7 +203,7 @@ void NfcThread::run(){
                                             digitalWrite (Costant::led1(), LOW);
                                             digitalWrite (Costant::led2(), HIGH);
 
-                                        }
+                                        //}
 
                                     }
 

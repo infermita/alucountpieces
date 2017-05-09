@@ -116,8 +116,8 @@ void ReadInput::run(){
 
                         }
                         digitalWrite (Costant::led1(), HIGH);
-                        Costant::pCount++;
-                        qDebug() << "Conto: " << Costant::pCount;
+                        //Costant::pCount++;
+                        //qDebug() << "Conto: " << Costant::pCount;
                         read = 1;
                         /*
                         lblCnt = "Pezzi: "+QString::number(Costant::pCount);
@@ -129,7 +129,7 @@ void ReadInput::run(){
                         url += "/cardkeym/"+Costant::nfcIdM;
                         url += "/worker/"+Costant::workers;
                         url += "/mold/"+Costant::molds;
-                        url += "/pezzi/"+QString::number(Costant::pCount);
+                        //url += "/pezzi/"+QString::number(Costant::pCount);
                         url += "/foot/"+foot;
 
                         http.Get(url);
