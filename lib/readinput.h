@@ -8,6 +8,7 @@ class ReadInput : public QThread
     Q_OBJECT
 public:
     ReadInput();
+    QString foot;
 public slots:
     void replyFinished (QNetworkReply *reply);
 private:

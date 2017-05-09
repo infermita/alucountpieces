@@ -16,6 +16,8 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QFileInfoList>
+#include <QDir>
 
 QString Costant::nfcIdW = "";
 QString Costant::nfcIdM = "";
@@ -46,14 +48,42 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext &context,const QS
         abort();
     }
     QFile outFile;
+    QString pathLog = "/var/log/";
     if(QString(getenv("USER"))=="alberto"){
 
-        outFile.setFileName("alucount.log");
+        pathLog = "";
 
-    }else{
-        outFile.setFileName("/var/log/alucount.log");
     }
+
+    outFile.setFileName(pathLog+"atm.log");
+
     outFile.open(QIODevice::WriteOnly | QIODevice::Append);
+
+    if(outFile.size()>15728640){
+
+        QDir dir(pathLog);
+        QStringList filter;
+        filter << "atm.*.log";
+        dir.setNameFilters(filter);
+
+        QFileInfoList listFs = dir.entryInfoList(QDir::Files,QDir::Time);
+
+        if(listFs.size()>5){
+            for(int i = 5; i < listFs.size();i++){
+
+                QFile::remove(listFs.at(i).absoluteFilePath());
+
+            }
+        }
+
+        outFile.rename(pathLog+"alucount.log",pathLog+"alucount."+QDateTime::currentDateTime().toString("dd-MM-yy_hh:mm")+".log");
+        outFile.close();
+        outFile.setFileName(pathLog+"alucount.log");
+        outFile.open(QIODevice::WriteOnly | QIODevice::Append);
+
+    }
+
+
     QTextStream ts(&outFile);
     ts << txt << endl;
 }
@@ -69,8 +99,8 @@ int main(int argc, char *argv[])
         wiringPiSetup();
         pinMode (Costant::led1(), OUTPUT) ;
         pinMode (Costant::led2(), OUTPUT) ;
-        pinMode (Costant::in1(), INPUT) ;
-        pinMode (Costant::in2(), INPUT) ;
+        pinMode (Costant::insx(), INPUT) ;
+        pinMode (Costant::indx(), INPUT) ;
 
     }
 
@@ -78,8 +108,13 @@ int main(int argc, char *argv[])
 
     NfcThread nfcTh;
     nfcTh.start();
-    ReadInput rd;
-    rd.start();
+    ReadInput rdSX;
+    rdSX.foot = "sx";
+    rdSX.start();
+
+    ReadInput rdDX;
+    rdDX.foot = "dx";
+    rdDX.start();
 
     return a.exec();
 }

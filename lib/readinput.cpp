@@ -15,87 +15,92 @@ ReadInput::ReadInput()
 }
 void ReadInput::run(){
 
-    int dl = 50,i,read=0;
+    int dl = 50,i,read=0,input;
     QString lblCnt;
     QString ip,url,mac;
     QString resp;
     HttpClient http;
     bool ipcheck = true;
 
+    if(foot=="sx"){
 
+        input = Costant::insx();
 
-    if(QString(getenv("USER"))!="alberto"){
+        if(QString(getenv("USER"))!="alberto"){
 
-        Costant::wLcd->clear();
-        Costant::wLcd->write(0,0,"Attesa rete");
-    }
-
-    sleep(5);
-
-    mac = QNetworkInterface::interfaceFromName("wlan0").hardwareAddress();
-
-    while(ipcheck){
-
-        ip = QNetworkInterface::interfaceFromName("wlan0").addressEntries().first().ip().toString();
-
-        qDebug() << "Attesa rete con ip: " << ip << " count: " << QString::number(ip.split(".").count());
-
-        if(ip.split(".").count()==4)
-            ipcheck = false;
-        else
-            sleep(1);
-    }
-
-    url = "/default/json/updatest/mac/"+mac+"/ip/"+ip;
-    http.Get(url);
-
-    url = "/default/json/getdb/";
-
-    resp = http.Get(url);;
-
-    QJsonParseError *error = new QJsonParseError();
-    QJsonDocument d = QJsonDocument::fromJson(resp.toUtf8(),error);
-
-    if(error->error==QJsonParseError::NoError){
-
-        Costant::dao.deleteRow("cards","1");
-
-        QJsonObject jObj = d.object();
-        QJsonArray listUsers;
-        QHash<QString,QString> field;
-
-        listUsers = jObj["list"].toArray();
-        foreach (const QJsonValue & users, listUsers) {
-
-            field.clear();
-
-            QJsonObject o = users.toObject();
-            qDebug() << "Id user: " << o["id"].toString();
-            field.insert("id",o["id"].toString());
-            field.insert("cardkey",o["cardkey"].toString());
-            field.insert("`table`",o["table"].toString());
-            field.insert("value",o["value"].toString());
-
-            if(Costant::dao.replaceRow("cards",field)){
-                qDebug() << "Ok insert: " << o["id"].toString();
-            }else{
-                qDebug() << "Error insert: " << o["id"].toString();
-            }
-
+            Costant::wLcd->clear();
+            Costant::wLcd->write(0,0,"Attesa rete");
         }
-    }
 
-    if(QString(getenv("USER"))!="alberto"){
+        sleep(5);
 
-        Costant::wLcd->clear();
-        Costant::wLcd->write(0,0,"Attesa badge");
+        mac = QNetworkInterface::interfaceFromName("wlan0").hardwareAddress();
+
+        while(ipcheck){
+
+            ip = QNetworkInterface::interfaceFromName("wlan0").addressEntries().first().ip().toString();
+
+            qDebug() << "Attesa rete con ip: " << ip << " count: " << QString::number(ip.split(".").count());
+
+            if(ip.split(".").count()==4)
+                ipcheck = false;
+            else
+                sleep(1);
+        }
+
+        url = "/default/json/updatest/mac/"+mac+"/ip/"+ip;
+        http.Get(url);
+
+        url = "/default/json/getdb/";
+
+        resp = http.Get(url);;
+
+        QJsonParseError *error = new QJsonParseError();
+        QJsonDocument d = QJsonDocument::fromJson(resp.toUtf8(),error);
+
+        if(error->error==QJsonParseError::NoError){
+
+            Costant::dao.deleteRow("cards","1");
+
+            QJsonObject jObj = d.object();
+            QJsonArray listUsers;
+            QHash<QString,QString> field;
+
+            listUsers = jObj["list"].toArray();
+            foreach (const QJsonValue & users, listUsers) {
+
+                field.clear();
+
+                QJsonObject o = users.toObject();
+                qDebug() << "Id user: " << o["id"].toString();
+                field.insert("id",o["id"].toString());
+                field.insert("cardkey",o["cardkey"].toString());
+                field.insert("`table`",o["table"].toString());
+                field.insert("value",o["value"].toString());
+
+                if(Costant::dao.replaceRow("cards",field)){
+                    qDebug() << "Ok insert: " << o["id"].toString();
+                }else{
+                    qDebug() << "Error insert: " << o["id"].toString();
+                }
+
+            }
+        }
+
+        if(QString(getenv("USER"))!="alberto"){
+
+            Costant::wLcd->clear();
+            Costant::wLcd->write(0,0,"Attesa badge");
+        }
+    }else{
+        input = Costant::indx();
     }
 
     while(1){
 
         if(QString(getenv("USER"))!="alberto"){
 
-            if(digitalRead(Costant::in1()) || digitalRead(Costant::in2())){
+            if(digitalRead(input)){
 
                 if(Costant::nfcIdW!="" && Costant::nfcIdM!="" && Costant::maintenance==false){
 
@@ -125,6 +130,7 @@ void ReadInput::run(){
                         url += "/worker/"+Costant::workers;
                         url += "/mold/"+Costant::molds;
                         url += "/pezzi/"+QString::number(Costant::pCount);
+                        url += "/foot/"+foot;
 
                         http.Get(url);
                     }
