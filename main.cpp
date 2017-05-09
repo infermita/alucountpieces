@@ -55,7 +55,7 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext &context,const QS
 
     }
 
-    outFile.setFileName(pathLog+"atm.log");
+    outFile.setFileName(pathLog+"alucount.log");
 
     outFile.open(QIODevice::WriteOnly | QIODevice::Append);
 
@@ -63,7 +63,7 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext &context,const QS
 
         QDir dir(pathLog);
         QStringList filter;
-        filter << "atm.*.log";
+        filter << "alucount.*.log";
         dir.setNameFilters(filter);
 
         QFileInfoList listFs = dir.entryInfoList(QDir::Files,QDir::Time);
