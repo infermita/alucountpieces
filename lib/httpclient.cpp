@@ -16,17 +16,18 @@ QString HttpClient::Get(QString url){
     QNetworkAccessManager manager;
     QEventLoop loop;
     QNetworkReply *rep;
+    QString urlDef;
 
     if(lock==false){
 
         lock = true;
 
-        url = "http://alucount.al.it"+url;
+        urlDef = "http://alucount.al.it"+url;
 
         QObject::connect(&manager, SIGNAL(finished(QNetworkReply*)),&loop, SLOT(quit()));
-        rep = manager.get(QNetworkRequest(QUrl(url)));
+        rep = manager.get(QNetworkRequest(QUrl(urlDef)));
 
-        qDebug() << "HttpC Chiamo url: " << url;
+        qDebug() << "HttpC Chiamo url: " << urlDef;
 
         loop.exec();
 
