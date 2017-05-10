@@ -6,6 +6,7 @@
 #include <QNetworkReply>
 #include <QDebug>
 #include "lib/costant.h"
+#include <unistd.h>
 
 HttpClient::HttpClient()
 {
@@ -18,6 +19,14 @@ QString HttpClient::Get(QString url){
     QEventLoop loop;
     QNetworkReply *rep;
     QString urlDef;
+
+    while(lock){
+
+        qDebug() << "Attendo Richiamo http";
+        qDebug() << "al url " << url;
+        sleep(1);
+
+    }
 
     if(lock==false){
 
@@ -46,10 +55,11 @@ QString HttpClient::Get(QString url){
             return "";
         }
 
-    }else{
-        qDebug() << "Richiamo http";
+    }/*else{
+        qDebug() << "Attendo Richiamo http";
         qDebug() << "al url " << url;
+        sleep(1);
         Costant::http.Get(url);
-    }
+    }*/
 
 }
