@@ -5,6 +5,7 @@
 #include <QEventLoop>
 #include <QNetworkReply>
 #include <QDebug>
+#include "lib/costant.h"
 
 HttpClient::HttpClient()
 {
@@ -46,7 +47,7 @@ QString HttpClient::Get(QString url){
         }
 
     }else{
-        Get(url);
+        Costant::http.Get(url);
     }
 
 }
