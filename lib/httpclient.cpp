@@ -47,6 +47,8 @@ QString HttpClient::Get(QString url){
         }
 
     }else{
+        qDebug() << "Richiamo http";
+        qDebug() << "al url " << url;
         Costant::http.Get(url);
     }
 
