@@ -118,7 +118,7 @@ void NfcThread::run(){
                                         }
 
                                     }
-                                    if(resQ.value("table")=="molds" || (resQ.value("table")=="masterkeys" && resQ.value("value")=="operaio")){
+                                    if(resQ.value("table")=="molds" || (resQ.value("table")=="masterkeys" && resQ.value("value")=="stampo")){
 
                                         if(resQ.value("value")!=Costant::molds){
                                             Costant::molds = resQ.value("value");
@@ -126,7 +126,7 @@ void NfcThread::run(){
                                             lcd = "S:"+Costant::molds;
                                             lcd = lcd+repeat.repeated(16 - lcd.length());
 
-                                            Costant::wLcd->write(0,1,lcd.toUtf8().data());
+                                            Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
                                             Costant::pCount = 0;
                                             Costant::nfcIdM = id;
                                         }
