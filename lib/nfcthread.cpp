@@ -198,7 +198,7 @@ void NfcThread::run(){
                                             Costant::wLcd->write(0,0,lcd.toUtf8().data());
 
                                             Costant::maintenance = true;
-                                            url = "/default/json/maintenance/cardkeyw/"+Costant::nfcIdW+"/cardkeym/"+Costant::nfcIdM;
+                                            url = "/default/json/maintenance/cardkeyw/"+Costant::nfcIdW+"/cardkeym/"+Costant::nfcIdM+"/cardman/"+id;
                                             Costant::http.Get(url);
                                             digitalWrite (Costant::led1(), LOW);
                                             digitalWrite (Costant::led2(), HIGH);
