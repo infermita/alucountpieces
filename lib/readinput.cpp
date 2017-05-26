@@ -126,6 +126,7 @@ void ReadInput::run(){
                         url += "/foot/"+foot;
 
                         Costant::http.Get(url);
+                        usleep(500000);
                     }
                 }/*else{
 
