@@ -24,6 +24,7 @@ QString Costant::nfcIdW = "";
 QString Costant::nfcIdM = "";
 QString Costant::workers = "";
 QString Costant::molds = "";
+QString Costant::sessId = "";
 bool Costant::config = false;
 bool Costant::maintenance = false;
 HttpClient Costant::http;

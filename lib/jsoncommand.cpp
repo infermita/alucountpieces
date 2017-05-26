@@ -76,12 +76,14 @@ void JsonCommand::ElaborateCommand(QTcpSocket *socket){
             //setconfig
             SendResponse(socket,"ok "+cmd);
             Costant::config = true;
+            Costant::sessId = jObj["sessionid"].toString();
             qDebug() << "Config nfc mode on ";
             break;
         case 4:
             //rmconfig
             SendResponse(socket,"ok "+cmd);
             Costant::config = false;
+            Costant::sessId =  "";
             qDebug() << "Config nfc mode off ";
             break;
         default:

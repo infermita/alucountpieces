@@ -23,6 +23,7 @@ public:
     static bool config;
     static bool maintenance;
     static HttpClient http;
+    static QString sessId;
     //static int lcdAddr;
 };
 
