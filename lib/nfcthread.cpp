@@ -83,7 +83,7 @@ void NfcThread::run(){
                                 for(i=0; i < 2;i++){
 
                                     digitalWrite (Costant::led1(), HIGH) ; delay (500) ;
-                                    digitalWrite (Costant::led1(), LOW);
+                                    digitalWrite (Costant::led1(), LOW);delay (500) ;
 
 
                                 }
@@ -100,7 +100,7 @@ void NfcThread::run(){
                                     for(i=0; i < 2;i++){
 
                                         digitalWrite (Costant::led1(), HIGH) ; delay (500) ;
-                                        digitalWrite (Costant::led1(), LOW);
+                                        digitalWrite (Costant::led1(), LOW);delay (500) ;
 
 
                                     }
@@ -183,7 +183,7 @@ void NfcThread::run(){
                                     for(i=0; i < 2;i++){
 
                                         digitalWrite (Costant::led2(), HIGH) ; delay (500) ;
-                                        digitalWrite (Costant::led2(), LOW);
+                                        digitalWrite (Costant::led2(), LOW);delay (500) ;
 
 
                                     }
