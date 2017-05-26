@@ -72,6 +72,9 @@ void NfcThread::run(){
                             }
                             qDebug() << "Leggo: " << id;
 
+                            digitalWrite (Costant::led2(), LOW);
+                            digitalWrite (Costant::led1(), LOW);
+
                             if(Costant::config){
 
                                 url = "/default/json/newcard/key/"+id+"/sessionid/"+Costant::sessId;
