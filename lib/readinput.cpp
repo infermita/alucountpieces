@@ -41,6 +41,8 @@ void ReadInput::run(){
                 sleep(1);
         }
 
+        sleep(5);
+
         url = "/default/json/updatest/mac/"+mac+"/ip/"+ip;
         Costant::http.Get(url);
 
