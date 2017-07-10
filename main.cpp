@@ -29,6 +29,7 @@ bool Costant::config = false;
 bool Costant::maintenance = false;
 HttpClient Costant::http;
 
+
 //int Costant::lcdAddr = 0x27;
 
 WriteLcd *Costant::wLcd = new WriteLcd();
