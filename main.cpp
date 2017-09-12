@@ -95,6 +95,7 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext &context,const QS
 
 int main(int argc, char *argv[])
 {
+
     QCoreApplication a(argc, argv);
 
     qInstallMessageHandler(myMessageHandler);
