@@ -93,7 +93,7 @@ void ReadInput::run(){
 
     while(1){
 
-        if(QString(getenv("USER"))!="alberto"){
+        //if(QString(getenv("USER"))!="alberto"){
 
             if(digitalRead(input)){
 
@@ -144,7 +144,7 @@ void ReadInput::run(){
                 read = 0;
             }
 
-        }
+        //}
         usleep(1000);
 
     }
