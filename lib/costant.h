@@ -13,6 +13,7 @@ public:
     static int led2() { return  5;}
     static int insx()   { return  0;}
     static int indx()   { return  2;}
+    static int plc()   { return  3;}
     static QString nfcIdW;
     static QString nfcIdM;
     static WriteLcd *wLcd;

@@ -106,6 +106,7 @@ int main(int argc, char *argv[])
         pinMode (Costant::led2(), OUTPUT) ;
         pinMode (Costant::insx(), INPUT) ;
         pinMode (Costant::indx(), INPUT) ;
+        pinMode (Costant::plc(), OUTPUT) ;
 
     }
 

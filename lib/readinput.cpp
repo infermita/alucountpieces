@@ -127,7 +127,9 @@ void ReadInput::run(){
                         //url += "/pezzi/"+QString::number(Costant::pCount);
                         url += "/foot/"+foot;
 
-                        Costant::http.Get(url);
+                        if(Costant::http.Get(url)=="STOP"){
+                            digitalWrite (Costant::plc(), HIGH) ;
+                        }
                         usleep(500000);
                     }
                 }/*else{
