@@ -8,6 +8,7 @@
 #include <QJsonArray>
 #include "lib/dao.h"
 #include "lib/httpclient.h"
+#include <QSettings>
 
 ReadInput::ReadInput()
 {
@@ -20,6 +21,8 @@ void ReadInput::run(){
     QString ip,url,mac;
     QString resp;
     bool ipcheck = true;
+    QString lcd,repeat = " ";
+
 
     sleep(5);
 
@@ -87,6 +90,27 @@ void ReadInput::run(){
             Costant::wLcd->clear();
             Costant::wLcd->write(0,0,"Attesa badge");
         }
+
+        QSettings settings("/etc/alucount/conf.ini", QSettings::IniFormat);
+        settings.beginGroup("nfc");
+
+        if(settings.value("moldid").toString()!="0" && settings.value("workerid").toString()!="0"){
+
+            Costant::workers = settings.value("worker").toString();
+            Costant::nfcIdW = settings.value("workerid").toString();
+            Costant::molds = settings.value("mold").toString();
+            Costant::nfcIdM = settings.value("moldid").toString();
+
+            lcd = "O:"+Costant::workers;
+            lcd = lcd+repeat.repeated(16 - lcd.length());
+            Costant::wLcd->write(0,0,lcd.toUtf8().data());
+
+            lcd = "S:"+Costant::molds;
+            lcd = lcd+repeat.repeated(16 - lcd.length());
+            Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
+
+
+        }
     }else{
         input = Costant::indx();
     }
@@ -129,6 +153,13 @@ void ReadInput::run(){
 
                         if(Costant::http.Get(url)=="STOP"){
                             digitalWrite (Costant::plc(), HIGH) ;
+                            QSettings settings("/etc/alucount/conf.ini", QSettings::IniFormat);
+                            settings.beginGroup("nfc");
+                            settings.setValue("worker","0");
+                            settings.setValue("workerid","0");
+                            settings.setValue("mold","0");
+                            settings.setValue("moldid","0");
+                            settings.sync();
                         }
                         usleep(500000);
                     }

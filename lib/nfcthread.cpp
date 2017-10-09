@@ -4,6 +4,7 @@
 #include <QDebug>
 #include "lib/writelcd.h"
 #include "lib/httpclient.h"
+#include <QSettings>
 
 NfcThread::NfcThread()
 {
@@ -196,6 +197,13 @@ void NfcThread::run(){
                                     digitalWrite (Costant::led2(), LOW);
                                     digitalWrite (Costant::led1(), HIGH);
                                     digitalWrite (Costant::plc(), LOW);
+                                    QSettings settings("/etc/alucount/conf.ini", QSettings::IniFormat);
+                                    settings.beginGroup("nfc");
+                                    settings.setValue("worker",Costant::workers);
+                                    settings.setValue("workerid",Costant::nfcIdW);
+                                    settings.setValue("mold",Costant::molds);
+                                    settings.setValue("moldid",Costant::nfcIdM);
+                                    settings.sync();
                                 }
                             }
 
