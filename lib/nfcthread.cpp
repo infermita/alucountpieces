@@ -78,7 +78,7 @@ void NfcThread::run(){
 
                             if(Costant::config){
 
-                                url = "/default/json/newcard/key/"+id+"/sessionid/"+Costant::sessId;
+                                url = "/default/json/newcard/key/"+id+"/sessionid/1";
                                 Costant::http.Get(url);
 
                                 for(i=0; i < 2;i++){
