@@ -5,6 +5,7 @@
 #include "lib/writelcd.h"
 #include "lib/httpclient.h"
 #include <QSettings>
+#include <QNetworkInterface>
 
 NfcThread::NfcThread()
 {
@@ -16,7 +17,7 @@ void NfcThread::run(){
     int dl = 250;
     QString id,url;
     QHash<QString, QString> resQ;
-    QString lcd,repeat = " ";
+    QString lcd,mac,repeat = " ";
 
     const nfc_modulation nmMifare = {
         .nmt = NMT_ISO14443A,
@@ -133,6 +134,9 @@ void NfcThread::run(){
                                             lcd = lcd+repeat.repeated(16 - lcd.length());
                                             Costant::wLcd->write(0,1,lcd.toUtf8().data());
 
+                                            mac = QNetworkInterface::interfaceFromName("wlan0").hardwareAddress();
+                                            url = "/default/json/maintenance/mac/"+mac+"/cardkeyw/"+Costant::nfcIdW+"/cardkeym/"+Costant::nfcIdM+"/cardman/"+id+"/closed/1";
+                                            Costant::http.Get(url);
 
                                         }else{
 
@@ -170,7 +174,8 @@ void NfcThread::run(){
                                             Costant::wLcd->write(0,0,lcd.toUtf8().data());
 
                                             Costant::maintenance = true;
-                                            url = "/default/json/maintenance/cardkeyw/"+Costant::nfcIdW+"/cardkeym/"+Costant::nfcIdM+"/cardman/"+id;
+                                            mac = QNetworkInterface::interfaceFromName("wlan0").hardwareAddress();
+                                            url = "/default/json/maintenance/mac/"+mac+"/cardkeyw/"+Costant::nfcIdW+"/cardkeym/"+Costant::nfcIdM+"/cardman/"+id+"/closed/0";
                                             Costant::http.Get(url);
                                             digitalWrite (Costant::led1(), LOW);
                                             digitalWrite (Costant::led2(), HIGH);
