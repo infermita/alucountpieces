@@ -4,6 +4,7 @@
 #include <QObject>
 #include <nfc/nfc.h>
 #include <QThread>
+#include <QTimer>
 
 class NfcThread : public QThread
 {
@@ -15,6 +16,11 @@ private:
     nfc_target nt;
     nfc_context *context;
     nfc_device *pnd;
+    QTimer *viewDet;
+    QString lcd,repeat;
+    int viewDetCnt;
+public slots:
+    void ViewDetTimer();
 };
 
 #endif // NFCTHREAD_H

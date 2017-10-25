@@ -28,6 +28,9 @@ QString Costant::sessId = "";
 bool Costant::config = false;
 bool Costant::maintenance = false;
 HttpClient Costant::http;
+QString Costant::totSx = "";
+QString Costant::totDx = "";
+QString Costant::total = "";
 
 
 //int Costant::lcdAddr = 0x27;
@@ -122,6 +125,10 @@ int main(int argc, char *argv[])
     ReadInput rdDX;
     rdDX.foot = "dx";
     rdDX.start();
+
+    ReadInput rdCnt;
+    rdCnt.foot = "cnt";
+    rdCnt.start();
 
     return a.exec();
 }

@@ -22,6 +22,8 @@ void ReadInput::run(){
     QString resp;
     bool ipcheck = true;
     QString lcd,repeat = " ";
+    QJsonParseError *error = new QJsonParseError();
+    QJsonDocument d;
 
 
     sleep(5);
@@ -53,8 +55,7 @@ void ReadInput::run(){
 
         resp = Costant::http.Get(url);;
 
-        QJsonParseError *error = new QJsonParseError();
-        QJsonDocument d = QJsonDocument::fromJson(resp.toUtf8(),error);
+        d = QJsonDocument::fromJson(resp.toUtf8(),error);
 
         if(error->error==QJsonParseError::NoError){
 
@@ -114,8 +115,10 @@ void ReadInput::run(){
 
 
         }
-    }else{
+    }else if(foot=="dx"){
         input = Costant::indx();
+    }else{
+        input = Costant::cnt();
     }
 
     while(1){
@@ -154,7 +157,9 @@ void ReadInput::run(){
                         //url += "/pezzi/"+QString::number(Costant::pCount);
                         url += "/foot/"+foot;
 
-                        if(Costant::http.Get(url)=="STOP"){
+                        resp = Costant::http.Get(url);;
+
+                        if(resp=="STOP"){
                             digitalWrite (Costant::plc(), HIGH) ;
                             QSettings settings("/etc/alucount/conf.ini", QSettings::IniFormat);
                             settings.beginGroup("nfc");
@@ -163,6 +168,27 @@ void ReadInput::run(){
                             settings.setValue("mold","0");
                             settings.setValue("moldid","0");
                             settings.sync();
+                        }else{
+
+
+                            d = QJsonDocument::fromJson(resp.toUtf8(),error);
+
+                            if(error->error==QJsonParseError::NoError){
+
+                                if(d.object().contains("status")){
+
+                                    if(d.object().value("status").toString()=="OK"){
+
+                                        Costant::totSx = d.object().value("totsx").toString();
+                                        Costant::totDx = d.object().value("totdx").toString();
+                                        Costant::total = d.object().value("total").toString();
+
+                                    }
+
+                                }
+
+                            }
+
                         }
                         usleep(500000);
                     }

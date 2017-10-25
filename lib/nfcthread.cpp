@@ -17,7 +17,14 @@ void NfcThread::run(){
     int dl = 250;
     QString id,url;
     QHash<QString, QString> resQ;
-    QString lcd,mac,repeat = " ";
+    QString mac;
+
+    repeat = " ";
+    viewDetCnt = 0;
+    viewDet = new QTimer();
+
+    connect(viewDet, SIGNAL(timeout()),
+              this, SLOT(ViewDetTimer()));
 
     const nfc_modulation nmMifare = {
         .nmt = NMT_ISO14443A,
@@ -59,6 +66,13 @@ void NfcThread::run(){
 
                         qDebug() << "Nfc iniator";
                         if(nfc_initiator_select_passive_target(pnd, nmMifare, NULL, 0, &nt) > 0){
+
+                            if(viewDet->isActive()){
+                                qDebug() << "Stop timer viewdet";
+                                viewDet->stop();
+                            }
+
+
 
                             qDebug() << "Nfc letto";
 
@@ -209,6 +223,7 @@ void NfcThread::run(){
                                     settings.setValue("mold",Costant::molds);
                                     settings.setValue("moldid",Costant::nfcIdM);
                                     settings.sync();
+                                    viewDet->start(2000);
                                 }
                             }
 
@@ -230,5 +245,41 @@ void NfcThread::run(){
         }
 
     }
+
+}
+void NfcThread::ViewDetTimer(){
+
+    if(viewDetCnt>=4)
+        viewDetCnt = 0;
+
+    switch(viewDetCnt){
+
+        case 0:
+            lcd = "S:"+Costant::molds;
+            lcd = lcd+repeat.repeated(16 - lcd.length());
+            viewDetCnt++;
+            break;
+        case 1:
+            lcd = "SX:"+Costant::totSx;
+            lcd = lcd+repeat.repeated(16 - lcd.length());
+            viewDetCnt++;
+            break;
+        case 2:
+            lcd = "DX:"+Costant::totDx;
+            lcd = lcd+repeat.repeated(16 - lcd.length());
+            viewDetCnt++;
+            break;
+        case 3:
+            lcd = "TOT:"+Costant::total;
+            lcd = lcd+repeat.repeated(16 - lcd.length());
+            viewDetCnt++;
+            break;
+        default:
+            break;
+
+    }
+    Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
+
+
 
 }
