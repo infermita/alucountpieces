@@ -5,6 +5,7 @@ WriteLcd::WriteLcd()
 {
     if(QString(getenv("USER"))!="alberto"){
         LCDAddr = 0x27;
+        LCDAddr = 0x3f;
         BLEN = 1;
         fd = wiringPiI2CSetup(LCDAddr);
         init();
