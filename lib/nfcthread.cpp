@@ -21,9 +21,9 @@ void NfcThread::run(){
 
     repeat = " ";
     viewDetCnt = 0;
-    viewDet = new QTimer();
+    //viewDet = new QTimer();
 
-    connect(viewDet, SIGNAL(timeout()),
+    connect(Costant::viewDet, SIGNAL(timeout()),
               this, SLOT(ViewDetTimer()));
 
     const nfc_modulation nmMifare = {
@@ -67,9 +67,9 @@ void NfcThread::run(){
                         qDebug() << "Nfc iniator";
                         if(nfc_initiator_select_passive_target(pnd, nmMifare, NULL, 0, &nt) > 0){
 
-                            if(viewDet->isActive()){
+                            if(Costant::viewDet->isActive()){
                                 qDebug() << "Stop timer viewdet";
-                                viewDet->stop();
+                                Costant::viewDet->stop();
                             }
 
 
@@ -223,7 +223,7 @@ void NfcThread::run(){
                                     settings.setValue("mold",Costant::molds);
                                     settings.setValue("moldid",Costant::nfcIdM);
                                     settings.sync();
-                                    viewDet->start(2000);
+                                    Costant::viewDet->start(2000);
                                 }
                             }
 

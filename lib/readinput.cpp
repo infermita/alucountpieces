@@ -112,6 +112,7 @@ void ReadInput::run(){
 
             digitalWrite (Costant::led2(), LOW);
             digitalWrite (Costant::led1(), HIGH);
+            Costant::viewDet->start(2000);
 
 
         }

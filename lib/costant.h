@@ -4,6 +4,7 @@
 #include "lib/writelcd.h"
 #include "lib/dao.h"
 #include "lib/httpclient.h"
+#include <QTimer>
 
 class Costant
 {
@@ -27,6 +28,7 @@ public:
     static bool maintenance;
     static HttpClient http;
     static QString sessId;
+    static QTimer *viewDet;
     //static int lcdAddr;
 };
 

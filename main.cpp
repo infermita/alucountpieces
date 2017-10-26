@@ -31,6 +31,7 @@ HttpClient Costant::http;
 QString Costant::totSx = "";
 QString Costant::totDx = "";
 QString Costant::total = "";
+QTimer *Costant::viewDet = new QTimer();
 
 
 //int Costant::lcdAddr = 0x27;
