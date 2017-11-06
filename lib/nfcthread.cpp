@@ -21,7 +21,7 @@ void NfcThread::run(){
 
     repeat = " ";
     viewDetCnt = 0;
-    viewDet = new QTimer();
+    viewDet = new QTimer(this);
 
     connect(viewDet, SIGNAL(timeout()),
               this, SLOT(ViewDetTimer()));
