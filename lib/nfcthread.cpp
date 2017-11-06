@@ -286,6 +286,8 @@ void NfcThread::ViewDetTimer(){
             break;
 
     }
+    qDebug() << "Timer scrivo " << lcd;
+
     Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
 
 
