@@ -67,12 +67,12 @@ void NfcThread::run(){
                         qDebug() << "Nfc iniator";
                         if(nfc_initiator_select_passive_target(pnd, nmMifare, NULL, 0, &nt) > 0){
 
-                            /*
-                            if(Costant::viewDet->isActive()){
+
+                            if(viewDet->isActive()){
                                 qDebug() << "Stop timer viewdet";
                                 Costant::viewDet->stop();
                             }
-                            */
+
 
 
                             qDebug() << "Nfc letto";
@@ -252,6 +252,7 @@ void NfcThread::run(){
 void NfcThread::StartTimer(){
 
     viewDet->start(2000);
+    qDebug() << "Start timer viewdet";
 
 }
 void NfcThread::ViewDetTimer(){
