@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDateTime>
+#include <QObject>
 #include "lib/nfcthread.h"
 #include <wiringPi.h>
 #include "lib/costant.h"
@@ -122,6 +123,9 @@ int main(int argc, char *argv[])
     ReadInput rdSX;
     rdSX.foot = "sx";
     rdSX.start();
+
+    QObject::connect(&rdSX, SIGNAL(StartTimer()),
+              &nfcTh, SLOT(StartTimer()));
 
     ReadInput rdDX;
     rdDX.foot = "dx";

@@ -21,6 +21,7 @@ private:
     int viewDetCnt;
 public slots:
     void ViewDetTimer();
+    void StartTimer();
 };
 
 #endif // NFCTHREAD_H

@@ -13,6 +13,8 @@ public slots:
     void replyFinished (QNetworkReply *reply);
 private:
     void run();
+signals:
+    void StartTimer();
 };
 
 #endif // READINPUT_H

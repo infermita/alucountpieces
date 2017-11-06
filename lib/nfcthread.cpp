@@ -21,11 +21,11 @@ void NfcThread::run(){
 
     repeat = " ";
     viewDetCnt = 0;
-    //viewDet = new QTimer();
-    /*
-    connect(Costant::viewDet, SIGNAL(timeout()),
+    viewDet = new QTimer();
+
+    connect(viewDet, SIGNAL(timeout()),
               this, SLOT(ViewDetTimer()));
-    */
+
     const nfc_modulation nmMifare = {
         .nmt = NMT_ISO14443A,
         .nbr = NBR_106,
@@ -224,7 +224,8 @@ void NfcThread::run(){
                                     settings.setValue("mold",Costant::molds);
                                     settings.setValue("moldid",Costant::nfcIdM);
                                     settings.sync();
-                                    //Costant::viewDet->start(2000);
+                                    StartTimer();
+
                                 }
                             }
 
@@ -246,6 +247,11 @@ void NfcThread::run(){
         }
 
     }
+
+}
+void NfcThread::StartTimer(){
+
+    viewDet->start(2000);
 
 }
 void NfcThread::ViewDetTimer(){
