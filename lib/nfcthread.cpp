@@ -70,7 +70,7 @@ void NfcThread::run(){
 
                             if(viewDet->isActive()){
                                 qDebug() << "Stop timer viewdet";
-                                Costant::viewDet->stop();
+                                viewDet->stop();
                             }
 
 
