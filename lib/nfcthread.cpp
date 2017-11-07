@@ -262,7 +262,7 @@ void NfcThread::StartTimer(){
 }
 void NfcThread::ViewDetTimer(){
 
-    if(goTimer){
+    if(goTimer==1){
 
         if(viewDetCnt>=4)
             viewDetCnt = 0;
