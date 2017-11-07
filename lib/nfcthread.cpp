@@ -21,10 +21,12 @@ void NfcThread::run(){
 
     repeat = " ";
     viewDetCnt = 0;
-    viewDet = new QTimer(this);
+    viewDet = new QTimer();
 
     connect(viewDet, SIGNAL(timeout()),
               this, SLOT(ViewDetTimer()));
+
+    viewDet->start(2000);
 
     const nfc_modulation nmMifare = {
         .nmt = NMT_ISO14443A,
@@ -224,7 +226,7 @@ void NfcThread::run(){
                                     settings.setValue("mold",Costant::molds);
                                     settings.setValue("moldid",Costant::nfcIdM);
                                     settings.sync();
-                                    StartTimer();
+                                    //StartTimer();
 
                                 }
                             }
