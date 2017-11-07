@@ -19,9 +19,11 @@ private:
     QTimer *viewDet;
     QString lcd,repeat;
     int viewDetCnt;
+    bool goTimer;
 public slots:
     void ViewDetTimer();
     void StartTimer();
+
 };
 
 #endif // NFCTHREAD_H

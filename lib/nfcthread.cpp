@@ -10,6 +10,13 @@
 NfcThread::NfcThread()
 {
 
+    goTimer = false;
+    viewDet = new QTimer();
+    connect(viewDet, SIGNAL(timeout()),
+              this, SLOT(ViewDetTimer()),Qt::DirectConnection);
+    viewDet->start(2000);
+
+
 }
 void NfcThread::run(){
 
@@ -21,11 +28,6 @@ void NfcThread::run(){
 
     repeat = " ";
     viewDetCnt = 0;
-    viewDet = new QTimer();
-    connect(viewDet, SIGNAL(timeout()),
-              this, SLOT(ViewDetTimer()),Qt::DirectConnection);
-
-    viewDet->start(2000);
 
     const nfc_modulation nmMifare = {
         .nmt = NMT_ISO14443A,
@@ -71,7 +73,8 @@ void NfcThread::run(){
 
                             if(viewDet->isActive()){
                                 qDebug() << "Stop timer viewdet";
-                                viewDet->stop();
+                                //viewDet->stop();
+                                goTimer = false;
                             }
 
 
@@ -225,7 +228,7 @@ void NfcThread::run(){
                                     settings.setValue("mold",Costant::molds);
                                     settings.setValue("moldid",Costant::nfcIdM);
                                     settings.sync();
-                                    //StartTimer();
+                                    StartTimer();
 
                                 }
                             }
@@ -244,52 +247,56 @@ void NfcThread::run(){
 
                 }
             }
-            sleep(1);
+
         }
+        sleep(1);
 
     }
 
 }
 void NfcThread::StartTimer(){
 
-    viewDet->start(2000);
+    goTimer = true;
     qDebug() << "Start timer viewdet";
 
 }
 void NfcThread::ViewDetTimer(){
 
-    if(viewDetCnt>=4)
-        viewDetCnt = 0;
+    if(goTimer){
 
-    switch(viewDetCnt){
+        if(viewDetCnt>=4)
+            viewDetCnt = 0;
 
-        case 0:
-            lcd = "S:"+Costant::molds;
-            lcd = lcd+repeat.repeated(16 - lcd.length());
-            viewDetCnt++;
-            break;
-        case 1:
-            lcd = "SX:"+Costant::totSx;
-            lcd = lcd+repeat.repeated(16 - lcd.length());
-            viewDetCnt++;
-            break;
-        case 2:
-            lcd = "DX:"+Costant::totDx;
-            lcd = lcd+repeat.repeated(16 - lcd.length());
-            viewDetCnt++;
-            break;
-        case 3:
-            lcd = "TOT:"+Costant::total;
-            lcd = lcd+repeat.repeated(16 - lcd.length());
-            viewDetCnt++;
-            break;
-        default:
-            break;
+        switch(viewDetCnt){
 
+            case 0:
+                lcd = "S:"+Costant::molds;
+                lcd = lcd+repeat.repeated(16 - lcd.length());
+                viewDetCnt++;
+                break;
+            case 1:
+                lcd = "SX:"+Costant::totSx;
+                lcd = lcd+repeat.repeated(16 - lcd.length());
+                viewDetCnt++;
+                break;
+            case 2:
+                lcd = "DX:"+Costant::totDx;
+                lcd = lcd+repeat.repeated(16 - lcd.length());
+                viewDetCnt++;
+                break;
+            case 3:
+                lcd = "TOT:"+Costant::total;
+                lcd = lcd+repeat.repeated(16 - lcd.length());
+                viewDetCnt++;
+                break;
+            default:
+                break;
+
+        }
+        qDebug() << "Timer scrivo " << lcd;
+
+        Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
     }
-    qDebug() << "Timer scrivo " << lcd;
-
-    Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
 
 
 

@@ -32,8 +32,6 @@ HttpClient Costant::http;
 QString Costant::totSx = "";
 QString Costant::totDx = "";
 QString Costant::total = "";
-//QTimer *Costant::viewDet = new QTimer();
-
 
 //int Costant::lcdAddr = 0x27;
 
@@ -118,14 +116,15 @@ int main(int argc, char *argv[])
 
     SocketServer server;
 
-    NfcThread  *nfcTh = new NfcThread();
-    nfcTh->start();
+    NfcThread  nfcTh;
+    nfcTh.start();
+
     ReadInput rdSX;
     rdSX.foot = "sx";
     rdSX.start();
 
     QObject::connect(&rdSX, SIGNAL(StartTimer()),
-              nfcTh, SLOT(StartTimer()));
+              &nfcTh, SLOT(StartTimer()));
 
     ReadInput rdDX;
     rdDX.foot = "dx";
