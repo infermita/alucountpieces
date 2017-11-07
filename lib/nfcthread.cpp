@@ -22,7 +22,6 @@ void NfcThread::run(){
     repeat = " ";
     viewDetCnt = 0;
     viewDet = new QTimer();
-    viewDet->moveToThread(this);
     connect(viewDet, SIGNAL(timeout()),
               this, SLOT(ViewDetTimer()),Qt::DirectConnection);
 

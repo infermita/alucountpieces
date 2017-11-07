@@ -118,14 +118,14 @@ int main(int argc, char *argv[])
 
     SocketServer server;
 
-    NfcThread nfcTh;
-    nfcTh.start();
+    NfcThread  *nfcTh = new NfcThread();
+    nfcTh->start();
     ReadInput rdSX;
     rdSX.foot = "sx";
     rdSX.start();
 
     QObject::connect(&rdSX, SIGNAL(StartTimer()),
-              &nfcTh, SLOT(StartTimer()));
+              nfcTh, SLOT(StartTimer()));
 
     ReadInput rdDX;
     rdDX.foot = "dx";
