@@ -10,7 +10,7 @@
 NfcThread::NfcThread()
 {
 
-    goTimer = false;
+    goTimer = -1;
     viewDet = new QTimer();
     connect(viewDet, SIGNAL(timeout()),
               this, SLOT(ViewDetTimer()),Qt::DirectConnection);
@@ -74,7 +74,7 @@ void NfcThread::run(){
                             if(viewDet->isActive()){
                                 qDebug() << "Stop timer viewdet";
                                 //viewDet->stop();
-                                goTimer = false;
+                                goTimer = 0;
                             }
 
 
@@ -256,7 +256,7 @@ void NfcThread::run(){
 }
 void NfcThread::StartTimer(){
 
-    goTimer = true;
+    goTimer = 1;
     qDebug() << "Start timer viewdet";
 
 }
@@ -293,9 +293,14 @@ void NfcThread::ViewDetTimer(){
                 break;
 
         }
-        qDebug() << "Timer scrivo " << lcd;
+        //qDebug() << "Timer scrivo " << lcd;
 
         Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
+    }else if(goTimer==0){
+        lcd = "S:"+Costant::molds;
+        lcd = lcd+repeat.repeated(16 - lcd.length());
+        Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
+        goTimer = -1;
     }
 
 
