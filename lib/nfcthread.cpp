@@ -198,6 +198,7 @@ void NfcThread::run(){
                                             Costant::http.Get(url);
                                             digitalWrite (Costant::led1(), LOW);
                                             digitalWrite (Costant::led2(), HIGH);
+                                            goTimer = -1;
 
 
 
