@@ -127,7 +127,8 @@ void ReadInput::run(){
 
         //if(QString(getenv("USER"))!="alberto"){
 
-            if(digitalRead(input)){
+            if(pullUpDnControl(input,PUD_UP))
+            //if(digitalRead(input)){
 
                 if(Costant::nfcIdW!="" && Costant::nfcIdM!="" && Costant::maintenance==false){
 
