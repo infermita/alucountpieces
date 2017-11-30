@@ -123,7 +123,7 @@ void ReadInput::run(){
         input = Costant::cnt();
     }
 
-    //pullUpDnControl(input,PUD_DOWN);
+    pullUpDnControl(input,PUD_DOWN);
 
     while(1){
 
