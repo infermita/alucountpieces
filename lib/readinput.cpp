@@ -123,12 +123,13 @@ void ReadInput::run(){
         input = Costant::cnt();
     }
 
+    pullUpDnControl(input,PUD_UP);
+
     while(1){
 
         //if(QString(getenv("USER"))!="alberto"){
 
-            if(pullUpDnControl(input,PUD_UP))
-            //if(digitalRead(input)){
+            if(digitalRead(input)){
 
                 if(Costant::nfcIdW!="" && Costant::nfcIdM!="" && Costant::maintenance==false){
 
