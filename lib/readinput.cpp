@@ -24,6 +24,7 @@ void ReadInput::run(){
     QString lcd,repeat = " ";
     QJsonParseError *error = new QJsonParseError();
     QJsonDocument d;
+    led1 = 0;
 
     QTimer *viewStop = new QTimer();
     connect(viewStop, SIGNAL(timeout()),
@@ -167,7 +168,9 @@ void ReadInput::run(){
                         //url += "/pezzi/"+QString::number(Costant::pCount);
                         url += "/foot/"+foot;
 
-                        resp = Costant::http.Get(url);;
+                        resp = Costant::http.Get(url);
+
+                        qDebug() << "Ricevo: " << res;
 
                         if(resp=="STOP"){
                             digitalWrite (Costant::plc(), HIGH) ;
@@ -181,6 +184,7 @@ void ReadInput::run(){
 
                             //if(!viewStop->isActive())
                                 viewStop->start(500);
+                                qDebug() << "Parte timer: ";
                         }else{
 
                             if(viewStop->isActive())
@@ -242,10 +246,14 @@ void ReadInput::replyFinished (QNetworkReply *reply)
 }
 void ReadInput::ViewStopTimer(){
 
-    if(digitalRead(Costant::led1())){
+    qDebug() << "Ciclo timer stop";
+
+    if(led1){
+        led1 = 0;
         digitalWrite (Costant::led2(), HIGH);
         digitalWrite (Costant::led1(), LOW);
     }else{
+        led1 = 1;
         digitalWrite (Costant::led1(), HIGH);
         digitalWrite (Costant::led2(), LOW);
     }

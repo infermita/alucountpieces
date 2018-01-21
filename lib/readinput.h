@@ -15,6 +15,7 @@ public slots:
     void ViewStopTimer();
 private:
     void run();
+    int led1;
 signals:
     void StartTimer();
 };
