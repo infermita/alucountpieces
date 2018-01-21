@@ -2,6 +2,7 @@
 #define READINPUT_H
 #include <QThread>
 #include <QNetworkReply>
+#include <QTimer>
 
 class ReadInput : public QThread
 {
@@ -11,6 +12,7 @@ public:
     QString foot;
 public slots:
     void replyFinished (QNetworkReply *reply);
+    void ViewStopTimer();
 private:
     void run();
 signals:

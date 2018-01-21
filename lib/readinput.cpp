@@ -25,6 +25,9 @@ void ReadInput::run(){
     QJsonParseError *error = new QJsonParseError();
     QJsonDocument d;
 
+    QTimer *viewStop = new QTimer();
+    connect(viewStop, SIGNAL(timeout()),
+              this, SLOT(ViewStopTimer()),Qt::DirectConnection);
 
     sleep(5);
 
@@ -117,6 +120,9 @@ void ReadInput::run(){
 
 
         }
+
+
+
     }else if(foot=="dx"){
         input = Costant::indx();
     }else{
@@ -172,8 +178,13 @@ void ReadInput::run(){
                             settings.setValue("mold","0");
                             settings.setValue("moldid","0");
                             settings.sync();
+
+                            if(!viewStop->isActive())
+                                viewStop->start(500);
                         }else{
 
+                            if(viewStop->isActive())
+                                viewStop->stop();
 
                             d = QJsonDocument::fromJson(resp.toUtf8(),error);
 
@@ -228,4 +239,15 @@ void ReadInput::replyFinished (QNetworkReply *reply)
     }
 
     reply->deleteLater();
+}
+void ReadInput::ViewStopTimer(){
+
+    if(digitalRead(Costant::led1())){
+        digitalWrite (Costant::led2(), HIGH);
+        digitalWrite (Costant::led1(), LOW);
+    }else{
+        digitalWrite (Costant::led1(), HIGH);
+        digitalWrite (Costant::led2(), LOW);
+    }
+
 }
