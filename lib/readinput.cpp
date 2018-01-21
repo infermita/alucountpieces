@@ -13,6 +13,12 @@
 ReadInput::ReadInput()
 {
 
+    viewStop = new QTimer();
+    connect(viewStop, SIGNAL(timeout()),
+              this, SLOT(ViewStopTimer()),Qt::DirectConnection);
+    led1 = -1;
+    viewStop->start(1000);
+
 }
 void ReadInput::run(){
 
@@ -24,11 +30,9 @@ void ReadInput::run(){
     QString lcd,repeat = " ";
     QJsonParseError *error = new QJsonParseError();
     QJsonDocument d;
-    led1 = 0;
 
-    QTimer *viewStop = new QTimer();
-    connect(viewStop, SIGNAL(timeout()),
-              this, SLOT(ViewStopTimer()),Qt::DirectConnection);
+
+
 
     sleep(5);
 
@@ -183,12 +187,11 @@ void ReadInput::run(){
                             settings.sync();
 
                             //if(!viewStop->isActive())
-                                viewStop->start(500);
-                                qDebug() << "Parte timer: ";
+                            led1 = 1;
+                            qDebug() << "Parte timer: ";
                         }else{
 
-                            if(viewStop->isActive())
-                                viewStop->stop();
+                            led1 = -1;
 
                             d = QJsonDocument::fromJson(resp.toUtf8(),error);
 
@@ -248,11 +251,11 @@ void ReadInput::ViewStopTimer(){
 
     qDebug() << "Ciclo timer stop";
 
-    if(led1){
+    if(led1==0){
         led1 = 0;
         digitalWrite (Costant::led2(), HIGH);
         digitalWrite (Costant::led1(), LOW);
-    }else{
+    }else if(led1==1){
         led1 = 1;
         digitalWrite (Costant::led1(), HIGH);
         digitalWrite (Costant::led2(), LOW);
