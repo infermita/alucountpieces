@@ -13,6 +13,7 @@
 #include "lib/socketserver.h"
 #include "lib/dao.h"
 #include "lib/httpclient.h"
+#include "lib/stopwork.h"
 
 
 #include <QJsonDocument>
@@ -133,6 +134,9 @@ int main(int argc, char *argv[])
     ReadInput rdCnt;
     rdCnt.foot = "cnt";
     rdCnt.start();
+
+    Stopwork stpw;
+    stpw.start();
 
     return a.exec();
 }

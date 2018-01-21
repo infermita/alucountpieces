@@ -28,16 +28,6 @@ void ReadInput::run(){
     QJsonDocument d;
 
 
-    if(foot=="sx"){
-
-        viewStop = new QTimer();
-        connect(viewStop, SIGNAL(timeout()),
-                  this, SLOT(ViewStopTimer()),Qt::DirectConnection);
-        viewStop->start(1000);
-
-    }
-
-
     sleep(5);
 
     mac = QNetworkInterface::interfaceFromName("wlan0").hardwareAddress();
@@ -251,18 +241,4 @@ void ReadInput::replyFinished (QNetworkReply *reply)
 
     reply->deleteLater();
 }
-void ReadInput::ViewStopTimer(){
 
-    qDebug() << "Ciclo timer stop:" << Costant::vieStop;
-
-    if(Costant::vieStop==0){
-        Costant::vieStop = 1;
-        digitalWrite (Costant::led2(), HIGH);
-        digitalWrite (Costant::led1(), LOW);
-    }else if(Costant::vieStop==1){
-        Costant::vieStop = 0;
-        digitalWrite (Costant::led1(), HIGH);
-        digitalWrite (Costant::led2(), LOW);
-    }
-
-}
