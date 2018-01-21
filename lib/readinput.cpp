@@ -16,7 +16,6 @@ ReadInput::ReadInput()
     viewStop = new QTimer();
     connect(viewStop, SIGNAL(timeout()),
               this, SLOT(ViewStopTimer()),Qt::DirectConnection);
-    led1 = -1;
     viewStop->start(1000);
 
 }
