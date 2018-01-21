@@ -170,7 +170,7 @@ void ReadInput::run(){
 
                         resp = Costant::http.Get(url);
 
-                        qDebug() << "Ricevo: " << res;
+                        qDebug() << "Ricevo: " << resp;
 
                         if(resp=="STOP"){
                             digitalWrite (Costant::plc(), HIGH) ;
