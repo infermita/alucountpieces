@@ -11,7 +11,7 @@ void Stopwork::run(){
 
     while(1){
 
-        qDebug() << "Ciclo timer stop:" << Costant::vieStop;
+        //qDebug() << "Ciclo timer stop:" << Costant::vieStop;
 
         if(Costant::vieStop==0){
             Costant::vieStop = 1;
