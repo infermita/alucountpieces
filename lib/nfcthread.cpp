@@ -77,7 +77,7 @@ void NfcThread::run(){
                                 goTimer = 0;
                             }
 
-
+                            Costant::vieStop = -1;
 
                             qDebug() << "Nfc letto";
 

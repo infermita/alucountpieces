@@ -28,6 +28,7 @@ public:
     static bool maintenance;
     static HttpClient http;
     static QString sessId;
+    static int vieStop;
     //static int lcdAddr;
 };
 

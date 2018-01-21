@@ -32,7 +32,7 @@ HttpClient Costant::http;
 QString Costant::totSx = "";
 QString Costant::totDx = "";
 QString Costant::total = "";
-
+int Costant::vieStop = -1;
 //int Costant::lcdAddr = 0x27;
 
 WriteLcd *Costant::wLcd = new WriteLcd();

@@ -15,7 +15,6 @@ public slots:
     void ViewStopTimer();
 private:
     void run();
-    int led1;
     QTimer *viewStop;
 signals:
     void StartTimer();

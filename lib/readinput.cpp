@@ -187,11 +187,11 @@ void ReadInput::run(){
                             settings.sync();
 
                             //if(!viewStop->isActive())
-                            led1 = 1;
+                            Costant::vieStop =  1;
                             qDebug() << "Parte timer: ";
                         }else{
 
-                            led1 = -1;
+                            Costant::vieStop = -1;
 
                             d = QJsonDocument::fromJson(resp.toUtf8(),error);
 
@@ -249,14 +249,14 @@ void ReadInput::replyFinished (QNetworkReply *reply)
 }
 void ReadInput::ViewStopTimer(){
 
-    qDebug() << "Ciclo timer stop:" << led1;
+    qDebug() << "Ciclo timer stop:" << Costant::vieStop;
 
-    if(led1==0){
-        led1 = 1;
+    if(Costant::vieStop==0){
+        Costant::vieStop = 1;
         digitalWrite (Costant::led2(), HIGH);
         digitalWrite (Costant::led1(), LOW);
-    }else if(led1==1){
-        led1 = 0;
+    }else if(Costant::vieStop==1){
+        Costant::vieStop = 0;
         digitalWrite (Costant::led1(), HIGH);
         digitalWrite (Costant::led2(), LOW);
     }
