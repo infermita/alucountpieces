@@ -179,7 +179,7 @@ void ReadInput::run(){
                             settings.setValue("moldid","0");
                             settings.sync();
 
-                            if(!viewStop->isActive())
+                            //if(!viewStop->isActive())
                                 viewStop->start(500);
                         }else{
 
