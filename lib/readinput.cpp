@@ -249,7 +249,7 @@ void ReadInput::replyFinished (QNetworkReply *reply)
 }
 void ReadInput::ViewStopTimer(){
 
-    qDebug() << "Ciclo timer stop";
+    qDebug() << "Ciclo timer stop:" << led1;
 
     if(led1==0){
         led1 = 0;
