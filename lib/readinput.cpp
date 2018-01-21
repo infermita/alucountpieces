@@ -252,11 +252,11 @@ void ReadInput::ViewStopTimer(){
     qDebug() << "Ciclo timer stop:" << led1;
 
     if(led1==0){
-        led1 = 0;
+        led1 = 1;
         digitalWrite (Costant::led2(), HIGH);
         digitalWrite (Costant::led1(), LOW);
     }else if(led1==1){
-        led1 = 1;
+        led1 = 0;
         digitalWrite (Costant::led1(), HIGH);
         digitalWrite (Costant::led2(), LOW);
     }
