@@ -13,10 +13,7 @@
 ReadInput::ReadInput()
 {
 
-    viewStop = new QTimer();
-    connect(viewStop, SIGNAL(timeout()),
-              this, SLOT(ViewStopTimer()),Qt::DirectConnection);
-    viewStop->start(1000);
+
 
 }
 void ReadInput::run(){
@@ -31,6 +28,14 @@ void ReadInput::run(){
     QJsonDocument d;
 
 
+    if(foot=="sx"){
+
+        viewStop = new QTimer();
+        connect(viewStop, SIGNAL(timeout()),
+                  this, SLOT(ViewStopTimer()),Qt::DirectConnection);
+        viewStop->start(1000);
+
+    }
 
 
     sleep(5);
