@@ -145,6 +145,8 @@ void NfcThread::run(){
                                             digitalWrite (Costant::led2(), LOW);
                                             digitalWrite (Costant::led1(), HIGH);
 
+                                            Costant::wLcd->clear();
+
                                             lcd = "O:"+Costant::workers;
                                             lcd = lcd+repeat.repeated(16 - lcd.length());
                                             Costant::wLcd->write(0,0,lcd.toUtf8().data());
@@ -219,6 +221,16 @@ void NfcThread::run(){
                                 }
 
                                 if(Costant::nfcIdM!="" && Costant::nfcIdW!="" && Costant::maintenance==false){
+
+                                    Costant::wLcd->clear();
+                                    lcd = "O:"+Costant::workers;
+                                    lcd = lcd+repeat.repeated(16 - lcd.length());
+                                    Costant::wLcd->write(0,0,lcd.toUtf8().data());
+
+                                    lcd = "S:"+Costant::molds;
+                                    lcd = lcd+repeat.repeated(16 - lcd.length());
+                                    Costant::wLcd->write(0,1,lcd.toUtf8().data());
+
                                     digitalWrite (Costant::led2(), LOW);
                                     digitalWrite (Costant::led1(), HIGH);
                                     digitalWrite (Costant::plc(), LOW);
