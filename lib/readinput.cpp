@@ -104,18 +104,28 @@ void ReadInput::run(){
             Costant::molds = settings.value("mold").toString();
             Costant::nfcIdM = settings.value("moldid").toString();
 
-            lcd = "O:"+Costant::workers;
-            lcd = lcd+repeat.repeated(16 - lcd.length());
-            Costant::wLcd->write(0,0,lcd.toUtf8().data());
+            if(settings.value("maintenance",0).toInt()==0){
 
-            lcd = "S:"+Costant::molds;
-            lcd = lcd+repeat.repeated(16 - lcd.length());
-            Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
+                lcd = "O:"+Costant::workers;
+                lcd = lcd+repeat.repeated(16 - lcd.length());
+                Costant::wLcd->write(0,0,lcd.toUtf8().data());
 
-            digitalWrite (Costant::led2(), LOW);
-            digitalWrite (Costant::led1(), HIGH);
-            //Costant::viewDet->start(2000);
-            emit StartTimer();
+                lcd = "S:"+Costant::molds;
+                lcd = lcd+repeat.repeated(16 - lcd.length());
+                Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
+
+                digitalWrite (Costant::led2(), LOW);
+                digitalWrite (Costant::led1(), HIGH);
+                //Costant::viewDet->start(2000);
+                emit StartTimer();
+            }else{
+                Costant::wLcd->clear();
+                lcd = "IN MANUTENZIONE";
+                Costant::wLcd->write(0,0,lcd.toUtf8().data());
+                Costant::maintenance = true;
+                digitalWrite (Costant::led1(), LOW);
+                digitalWrite (Costant::led2(), HIGH);
+            }
 
 
         }
