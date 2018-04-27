@@ -201,6 +201,10 @@ void NfcThread::run(){
                                             digitalWrite (Costant::led1(), LOW);
                                             digitalWrite (Costant::led2(), HIGH);
                                             goTimer = -1;
+                                            QSettings settings("/etc/alucount/conf.ini", QSettings::IniFormat);
+                                            settings.beginGroup("nfc");
+                                            settings.setValue("maintenance",0);
+                                            settings.sync();
 
 
 
@@ -240,6 +244,7 @@ void NfcThread::run(){
                                     settings.setValue("workerid",Costant::nfcIdW);
                                     settings.setValue("mold",Costant::molds);
                                     settings.setValue("moldid",Costant::nfcIdM);
+                                    settings.setValue("maintenance",0);
                                     settings.sync();
                                     StartTimer();
 
