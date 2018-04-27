@@ -203,7 +203,7 @@ void NfcThread::run(){
                                             goTimer = -1;
                                             QSettings settings("/etc/alucount/conf.ini", QSettings::IniFormat);
                                             settings.beginGroup("nfc");
-                                            settings.setValue("maintenance",0);
+                                            settings.setValue("maintenance",1);
                                             settings.sync();
 
 
