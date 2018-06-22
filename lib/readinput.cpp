@@ -181,7 +181,17 @@ void ReadInput::run(){
                         qDebug() << "Ricevo: " << resp;
 
                         if(resp=="STOP"){
+
                             digitalWrite (Costant::plc(), HIGH) ;
+                            delay (300) ;
+                            digitalWrite (Costant::plc(), LOW);
+                            delay (300) ;
+                            digitalWrite (Costant::plc(), HIGH) ;
+                            delay (300) ;
+                            digitalWrite (Costant::plc(), LOW);
+                            delay (300) ;
+                            digitalWrite (Costant::plc(), HIGH) ;
+
                             QSettings settings("/etc/alucount/conf.ini", QSettings::IniFormat);
                             settings.beginGroup("nfc");
                             settings.setValue("worker","0");
@@ -218,13 +228,14 @@ void ReadInput::run(){
                         }
                         usleep(500000);
                     }
-                }/*else{
+                }else{
 
-                    digitalWrite (Costant::led2(), HIGH) ; delay (dl) ;
-                    digitalWrite (Costant::led2(), LOW);delay (dl) ;
-                    read = 0;
-                    digitalWrite (Costant::led1(), HIGH);
-                }*/
+                    //digitalWrite (Costant::led2(), HIGH) ; delay (dl) ;
+                    //digitalWrite (Costant::led2(), LOW);delay (dl) ;
+                    //read = 0;
+                    //digitalWrite (Costant::led1(), HIGH);
+                    digitalWrite (Costant::plc(), HIGH) ;
+                }
 
             }else{
                 read = 0;
