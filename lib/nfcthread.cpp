@@ -185,14 +185,20 @@ void NfcThread::run(){
                                         }
 
                                     }
-                                    if(resQ.value("table")=="masterkeys" && resQ.value("value")=="manutenzione"){
+                                    if(resQ.value("table")=="masterkeys" && resQ.value("value").compare("manutenzione")){
 
 
                                             Costant::wLcd->clear();
 
+                                            QStringList man = resQ.value("value").split("i");
+
                                             lcd = "IN MANUTENZIONE";
 
                                             Costant::wLcd->write(0,0,lcd.toUtf8().data());
+
+                                            lcd = man.at(1);
+                                            lcd = lcd+repeat.repeated(16 - lcd.length());
+                                            Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
 
                                             Costant::maintenance = true;
                                             mac = QNetworkInterface::interfaceFromName("wlan0").hardwareAddress();
