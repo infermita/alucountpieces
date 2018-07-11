@@ -185,36 +185,36 @@ void NfcThread::run(){
                                         }
 
                                     }
-                                    if(resQ.value("table")=="masterkeys" && resQ.value("value").compare("manutenzione")){
+                                    if(resQ.value("table")=="masterkeys" && resQ.value("value").compare("manutenzione")>=0){
 
 
-                                            Costant::wLcd->clear();
+                                                Costant::wLcd->clear();
 
-                                            QStringList man = resQ.value("value").split("i");
+                                                QStringList man = resQ.value("value").split("i");
 
-                                            lcd = "IN MANUTENZIONE";
+                                                lcd = "IN MANUTENZIONE";
 
-                                            Costant::wLcd->write(0,0,lcd.toUtf8().data());
+                                                Costant::wLcd->write(0,0,lcd.toUtf8().data());
 
-                                            lcd = man.at(1);
-                                            lcd = lcd+repeat.repeated(16 - lcd.length());
-                                            Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
+                                                lcd = man.at(1);
+                                                lcd = lcd+repeat.repeated(16 - lcd.length());
+                                                Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
 
-                                            Costant::maintenance = true;
-                                            mac = QNetworkInterface::interfaceFromName("wlan0").hardwareAddress();
-                                            url = "/default/json/maintenance/mac/"+mac+"/cardkeyw/"+Costant::nfcIdW+"/cardkeym/"+Costant::nfcIdM+"/cardman/"+id+"/closed/0";
-                                            Costant::http.Get(url);
-                                            digitalWrite (Costant::led1(), LOW);
-                                            digitalWrite (Costant::led2(), HIGH);
-                                            goTimer = -1;
-                                            QSettings settings("/etc/alucount/conf.ini", QSettings::IniFormat);
-                                            settings.beginGroup("nfc");
-                                            settings.setValue("maintenance",1);
-                                            settings.sync();
+                                                Costant::maintenance = true;
+                                                mac = QNetworkInterface::interfaceFromName("wlan0").hardwareAddress();
+                                                url = "/default/json/maintenance/mac/"+mac+"/cardkeyw/"+Costant::nfcIdW+"/cardkeym/"+Costant::nfcIdM+"/cardman/"+id+"/closed/0";
+                                                Costant::http.Get(url);
+                                                digitalWrite (Costant::led1(), LOW);
+                                                digitalWrite (Costant::led2(), HIGH);
+                                                goTimer = -1;
+                                                QSettings settings("/etc/alucount/conf.ini", QSettings::IniFormat);
+                                                settings.beginGroup("nfc");
+                                                settings.setValue("maintenance",1);
+                                                settings.sync();
 
 
 
-                                    }
+                                        }
 
                                 }else{
 
