@@ -190,7 +190,7 @@ void NfcThread::run(){
 
                                                 Costant::wLcd->clear();
 
-                                                QStringList man = resQ.value("value").split("i");
+                                                QStringList man = resQ.value("value").split("|");
 
                                                 lcd = "IN MANUTENZIONE";
 
