@@ -196,9 +196,12 @@ void NfcThread::run(){
 
                                                 Costant::wLcd->write(0,0,lcd.toUtf8().data());
 
-                                                lcd = man.at(1);
-                                                lcd = lcd+repeat.repeated(16 - lcd.length());
-                                                Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
+                                                if(man.length()> 0){
+
+                                                    lcd = man.at(1);
+                                                    lcd = lcd+repeat.repeated(16 - lcd.length());
+                                                    Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
+                                                }
 
                                                 Costant::maintenance = true;
                                                 mac = QNetworkInterface::interfaceFromName("wlan0").hardwareAddress();
