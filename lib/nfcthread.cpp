@@ -200,7 +200,7 @@ void NfcThread::run(){
                                                 if(man.length()> 1){
 
                                                     lcd = man.at(1);
-                                                    lcd = lcd+repeat.repeated(32 - lcd.length());
+                                                    lcd = lcd = repeat.repeated(16)+lcd+".";
                                                     Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
                                                 }
 
@@ -333,8 +333,10 @@ void NfcThread::ViewDetTimer(){
         if(viewDet->interval()!=500)
             viewDet->setInterval(500);
 
-        if(lcd.mid(mid,2) == "  ")
+        if(lcd.mid(mid,1) == "."){
             mid= 0;
+
+        }
 
         Costant::wLcd->write(0,1,lcd.mid(mid,16).replace("\\","/").toUtf8().data());
         mid++;
