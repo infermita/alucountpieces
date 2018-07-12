@@ -330,7 +330,7 @@ void NfcThread::ViewDetTimer(){
         if(mid>31)
             mid= 0;
 
-        Costant::wLcd->write(0,1,lcd.mid(mid,1).replace("\\","/").toUtf8().data());
+        Costant::wLcd->write(0,1,lcd.mid(mid,16).replace("\\","/").toUtf8().data());
         mid++;
 
     }else if(goTimer==0){
