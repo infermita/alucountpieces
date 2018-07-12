@@ -25,6 +25,7 @@ void NfcThread::run(){
     QString id,url;
     QHash<QString, QString> resQ;
     QString mac;
+    mid = 0;
 
     repeat = " ";
     viewDetCnt = 0;
@@ -199,7 +200,7 @@ void NfcThread::run(){
                                                 if(man.length()> 1){
 
                                                     lcd = man.at(1);
-                                                    lcd = lcd+repeat.repeated(16 - lcd.length());
+                                                    lcd = lcd+repeat.repeated(32 - lcd.length());
                                                     Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
                                                 }
 
@@ -209,7 +210,7 @@ void NfcThread::run(){
                                                 Costant::http.Get(url);
                                                 digitalWrite (Costant::led1(), LOW);
                                                 digitalWrite (Costant::led2(), HIGH);
-                                                goTimer = -1;
+                                                goTimer = 2;
                                                 QSettings settings("/etc/alucount/conf.ini", QSettings::IniFormat);
                                                 settings.beginGroup("nfc");
                                                 settings.setValue("maintenance",1);
@@ -323,6 +324,15 @@ void NfcThread::ViewDetTimer(){
         //qDebug() << "Timer scrivo " << lcd;
 
         Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
+
+    }else if(goTimer==2){
+
+        if(mid>31)
+            mid= 0;
+
+        Costant::wLcd->write(0,1,lcd.mid(0,mid).replace("\\","/").toUtf8().data());
+        mid++;
+
     }else if(goTimer==0){
         lcd = "S:"+Costant::molds;
         lcd = lcd+repeat.repeated(16 - lcd.length());
