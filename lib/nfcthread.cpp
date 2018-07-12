@@ -196,7 +196,7 @@ void NfcThread::run(){
 
                                                 Costant::wLcd->write(0,0,lcd.toUtf8().data());
 
-                                                if(man.length()> 0){
+                                                if(man.length()> 1){
 
                                                     lcd = man.at(1);
                                                     lcd = lcd+repeat.repeated(16 - lcd.length());
