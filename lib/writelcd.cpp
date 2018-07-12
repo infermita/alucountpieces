@@ -83,7 +83,7 @@ void WriteLcd::write(int x, int y, char data[]){
 
     qDebug() << "Lunghezza stringa: " << strlen(data);
 
-    tmp = 16;//strlen(data);
+    tmp = strlen(data);
     for (i = 0; i < tmp; i++){
         send_data(data[i]);
     }
