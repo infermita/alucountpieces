@@ -200,7 +200,7 @@ void NfcThread::run(){
                                                 if(man.length()> 1){
 
                                                     lcd = man.at(1);
-                                                    lcd = lcd = repeat.repeated(16)+lcd+".";
+                                                    lcd = lcd = repeat.repeated(15)+lcd+"."+repeat.repeated(15);
                                                     Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
                                                 }
 
