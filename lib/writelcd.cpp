@@ -81,9 +81,9 @@ void WriteLcd::write(int x, int y, char data[]){
     addr = 0x80 + 0x40 * y + x;
     send_command(addr);
 
-    qDebug() << "Lunghezza stringa: " << strlen(data);
+    //qDebug() << "Lunghezza stringa: " << strlen(data);
 
-    tmp = strlen(data);
+    tmp = 16;//strlen(data);
     for (i = 0; i < tmp; i++){
         send_data(data[i]);
     }
