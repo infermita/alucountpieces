@@ -38,7 +38,7 @@ void NfcThread::run(){
     if(QString(getenv("USER"))!="alberto"){
         digitalWrite (Costant::led2(), HIGH) ;
         Costant::wLcd->clear();
-        Costant::wLcd->write(0,0,"Attesa rete");
+        Costant::wLcd->write(0,0,"Attesa rete    ");
     }
 
     while(1){
@@ -194,6 +194,7 @@ void NfcThread::run(){
                                                 QStringList man = resQ.value("value").split("|");
 
                                                 lcd = "IN MANUTENZIONE";
+                                                lcd = lcd+repeat.repeated(16 - lcd.length());
 
                                                 Costant::wLcd->write(0,0,lcd.toUtf8().data());
 
@@ -201,7 +202,7 @@ void NfcThread::run(){
 
                                                     lcd = man.at(1);
                                                     lcd = lcd = repeat.repeated(15)+lcd+"."+repeat.repeated(15);
-                                                    Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
+                                                    Costant::wLcd->write(0,1,lcd.mid(mid,16).replace("\\","/").toUtf8().data());
                                                 }
 
                                                 Costant::maintenance = true;

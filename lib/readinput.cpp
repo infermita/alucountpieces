@@ -91,7 +91,7 @@ void ReadInput::run(){
         if(QString(getenv("USER"))!="alberto"){
 
             Costant::wLcd->clear();
-            Costant::wLcd->write(0,0,"Attesa badge");
+            Costant::wLcd->write(0,0,"Attesa badge    ");
         }
 
         QSettings settings("/etc/alucount/conf.ini", QSettings::IniFormat);
