@@ -246,7 +246,7 @@ void NfcThread::run(){
 
                                     lcd = "S:"+Costant::molds;
                                     lcd = lcd+repeat.repeated(16 - lcd.length());
-                                    Costant::wLcd->write(0,1,lcd.toUtf8().data());
+                                    Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
 
                                     digitalWrite (Costant::led2(), LOW);
                                     digitalWrite (Costant::led1(), HIGH);
