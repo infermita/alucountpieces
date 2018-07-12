@@ -211,7 +211,6 @@ void NfcThread::run(){
                                                 digitalWrite (Costant::led1(), LOW);
                                                 digitalWrite (Costant::led2(), HIGH);
                                                 goTimer = 2;
-                                                viewDet->setInterval(200);
                                                 QSettings settings("/etc/alucount/conf.ini", QSettings::IniFormat);
                                                 settings.beginGroup("nfc");
                                                 settings.setValue("maintenance",1);
@@ -285,7 +284,6 @@ void NfcThread::run(){
 }
 void NfcThread::StartTimer(){
 
-    viewDet->setInterval(2000);
     goTimer = 1;
     qDebug() << "Start timer viewdet";
 
@@ -293,6 +291,9 @@ void NfcThread::StartTimer(){
 void NfcThread::ViewDetTimer(){
 
     if(goTimer==1){
+
+        if(viewDet->interval()!=2000)
+            viewDet->setInterval(2000);
 
         if(viewDetCnt>=4)
             viewDetCnt = 0;
@@ -328,6 +329,9 @@ void NfcThread::ViewDetTimer(){
         Costant::wLcd->write(0,1,lcd.replace("\\","/").toUtf8().data());
 
     }else if(goTimer==2){
+
+        if(viewDet->interval()!=200)
+            viewDet->setInterval(200);
 
         if(lcd.mid(mid,2) == "  ")
             mid= 0;
