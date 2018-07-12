@@ -19,7 +19,7 @@ private:
     QTimer *viewDet;
     QString lcd,repeat;
     int viewDetCnt;
-    int goTimer;
+    int goTimer,mid;
 public slots:
     void ViewDetTimer();
     void StartTimer();
