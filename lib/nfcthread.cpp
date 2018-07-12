@@ -330,8 +330,8 @@ void NfcThread::ViewDetTimer(){
 
     }else if(goTimer==2){
 
-        if(viewDet->interval()!=200)
-            viewDet->setInterval(200);
+        if(viewDet->interval()!=500)
+            viewDet->setInterval(500);
 
         if(lcd.mid(mid,2) == "  ")
             mid= 0;
