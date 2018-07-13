@@ -228,15 +228,11 @@ void ReadInput::run(){
                         }
                         usleep(500000);
                     }
-                /*}else if(Costant::maintenance && foot=="cnt"){
+                }else if(Costant::maintenance){
 
-                    if(man>=20){
+                    qDebug() << "In manutenzione";
 
-                         digitalWrite (Costant::plc(), HIGH) ;
 
-                    }
-                    man++;
-                */
                 }else{
 
                     Costant::wLcd->clear();
