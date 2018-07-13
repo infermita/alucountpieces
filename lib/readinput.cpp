@@ -26,6 +26,7 @@ void ReadInput::run(){
     QString lcd,repeat = " ";
     QJsonParseError *error = new QJsonParseError();
     QJsonDocument d;
+    //int man = 0;
 
 
     sleep(5);
@@ -120,11 +121,12 @@ void ReadInput::run(){
                 emit StartTimer();
             }else{
                 Costant::wLcd->clear();
-                lcd = "IN MANUTENZIONE";
+                lcd = "IN MANUTENZIONE ";
                 Costant::wLcd->write(0,0,lcd.toUtf8().data());
                 Costant::maintenance = true;
                 digitalWrite (Costant::led1(), LOW);
                 digitalWrite (Costant::led2(), HIGH);
+                digitalWrite (Costant::plc(), HIGH);
             }
 
 
@@ -147,6 +149,8 @@ void ReadInput::run(){
             if(digitalRead(input)){
 
                 if(Costant::nfcIdW!="" && Costant::nfcIdM!="" && Costant::maintenance==false){
+
+                    //man = 0;
 
                     if(read==0){
 
@@ -183,14 +187,6 @@ void ReadInput::run(){
                         if(resp=="STOP"){
 
                             digitalWrite (Costant::plc(), HIGH) ;
-                            delay (300) ;
-                            digitalWrite (Costant::plc(), LOW);
-                            delay (300) ;
-                            digitalWrite (Costant::plc(), HIGH) ;
-                            delay (300) ;
-                            digitalWrite (Costant::plc(), LOW);
-                            delay (300) ;
-                            digitalWrite (Costant::plc(), HIGH) ;
 
                             QSettings settings("/etc/alucount/conf.ini", QSettings::IniFormat);
                             settings.beginGroup("nfc");
@@ -199,6 +195,10 @@ void ReadInput::run(){
                             settings.setValue("mold","0");
                             settings.setValue("moldid","0");
                             settings.sync();
+
+                            Costant::wLcd->clear();
+                            lcd = "FINE PRODUZIONE ";
+                            Costant::wLcd->write(0,0,lcd.toUtf8().data());
 
                             //if(!viewStop->isActive())
                             Costant::vieStop =  1;
@@ -228,13 +228,33 @@ void ReadInput::run(){
                         }
                         usleep(500000);
                     }
+                /*}else if(Costant::maintenance && foot=="cnt"){
+
+                    if(man>=20){
+
+                         digitalWrite (Costant::plc(), HIGH) ;
+
+                    }
+                    man++;
+                */
                 }else{
 
+                    Costant::wLcd->clear();
+                    lcd = "MANCA BADGE     ";
+
+                    Costant::wLcd->write(0,0,lcd.toUtf8().data());
+
+                    lcd = "OPERATORE       ";
+
+                    if(Costant::nfcIdW!=""){
+                        lcd = "STAMPO          ";
+                    }
+                    Costant::wLcd->write(0,1,lcd.toUtf8().data());
                     //digitalWrite (Costant::led2(), HIGH) ; delay (dl) ;
                     //digitalWrite (Costant::led2(), LOW);delay (dl) ;
                     //read = 0;
                     //digitalWrite (Costant::led1(), HIGH);
-                    digitalWrite (Costant::plc(), HIGH) ;
+                    digitalWrite (Costant::plc(), HIGH);
                 }
 
             }else{

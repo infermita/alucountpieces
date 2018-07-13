@@ -214,6 +214,7 @@ void NfcThread::run(){
                                                 Costant::http.Get(url);
                                                 digitalWrite (Costant::led1(), LOW);
                                                 digitalWrite (Costant::led2(), HIGH);
+                                                digitalWrite (Costant::plc(), HIGH);
                                                 goTimer = 2;
                                                 QSettings settings("/etc/alucount/conf.ini", QSettings::IniFormat);
                                                 settings.beginGroup("nfc");
