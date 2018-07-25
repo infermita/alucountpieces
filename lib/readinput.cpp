@@ -184,7 +184,7 @@ void ReadInput::run(){
 
                         qDebug() << "Ricevo: " << resp;
 
-                        if(resp=="STOP"){
+                        if(resp=="STOP" || resp=="NOCAL"){
 
                             digitalWrite (Costant::plc(), HIGH) ;
 
@@ -197,7 +197,12 @@ void ReadInput::run(){
                             settings.sync();
 
                             Costant::wLcd->clear();
+
                             lcd = "FINE PRODUZIONE ";
+
+                            if(resp=="NOCAL")
+                                lcd = "CARICARE ORDINE ";
+
                             Costant::wLcd->write(0,0,lcd.toUtf8().data());
 
                             //if(!viewStop->isActive())
