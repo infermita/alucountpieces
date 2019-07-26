@@ -16,6 +16,7 @@ public:
     static int indx()   { return  2;}
     static int plc()   { return  3;}
     static int cnt()   { return  12;}
+    static int sct()   { return  13;}
     static QString totSx,totDx,total;
     static QString nfcIdW;
     static QString nfcIdM;

@@ -136,8 +136,10 @@ void ReadInput::run(){
 
     }else if(foot=="dx"){
         input = Costant::indx();
-    }else{
+    }else if(foot=="cnt"){
         input = Costant::cnt();
+    }else{
+        input = Costant::sct();
     }
 
     pullUpDnControl(input,PUD_DOWN);
@@ -231,7 +233,7 @@ void ReadInput::run(){
                             }
 
                         }
-                        usleep(500000);
+                        usleep(250000);
                     }
                 }else if(Costant::maintenance){
 

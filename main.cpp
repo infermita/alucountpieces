@@ -112,6 +112,7 @@ int main(int argc, char *argv[])
         pinMode (Costant::insx(), INPUT) ;
         pinMode (Costant::indx(), INPUT) ;
         pinMode (Costant::plc(), OUTPUT) ;
+        pinMode (Costant::sct(), INPUT) ;
 
     }
 
@@ -134,6 +135,10 @@ int main(int argc, char *argv[])
     ReadInput rdCnt;
     rdCnt.foot = "cnt";
     rdCnt.start();
+
+    ReadInput rdSct;
+    rdSct.foot = "sct";
+    rdSct.start();
 
     Stopwork stpw;
     stpw.start();
